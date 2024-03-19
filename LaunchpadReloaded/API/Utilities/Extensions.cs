@@ -1,8 +1,8 @@
-using System.Linq;
-using System.Reflection;
 using LaunchpadReloaded.API.Roles;
 using LaunchpadReloaded.Features;
 using Reactor.Utilities.Extensions;
+using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 namespace LaunchpadReloaded.API.Utilities;
@@ -14,6 +14,16 @@ public static class Extensions
     public static bool ButtonTimerEnabled(this PlayerControl playerControl)
     {
         return (playerControl.moveable || playerControl.petting) && !playerControl.inVent && !playerControl.shapeshifting && (!DestroyableSingleton<HudManager>.InstanceExists || !DestroyableSingleton<HudManager>.Instance.IsIntroDisplayed) && !MeetingHud.Instance && !PlayerCustomizationMenu.Instance && !ExileController.Instance && !IntroCutscene.Instance;
+    }
+
+    public static WeaponManager GetWeaponManager(this PlayerControl player)
+    {
+        return player.gameObject.GetComponent<WeaponManager>();
+    }
+
+    public static bool IsWithin(this float value, float minimum, float maximum)
+    {
+        return value >= minimum && value <= maximum;
     }
 
     public static bool IsHacked(this GameData.PlayerInfo playerInfo)

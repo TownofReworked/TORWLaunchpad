@@ -15,5 +15,6 @@ public enum LaunchpadRPC : uint
     CreateScanner = 12,
     Revive = 13,
     SyncGradient = 14,
-    SyncGameOptions = 15
+    SyncGameOptions = 15,
+    SyncWeaponPos = 16
 }

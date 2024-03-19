@@ -32,6 +32,9 @@ public static class LaunchpadAssets
     public static LoadableAsset<Sprite> ScannerSprite = new("Scanner.png", false);
     public static LoadableAsset<Sprite> NodeSprite = new("Node.png", false);
     public static LoadableAsset<Sprite> KnifeHandSprite = new("KnifeHand.png", false);
+    public static LoadableAsset<Sprite> RifleSprite = new("Rifle.png", false);
+    public static LoadableAsset<Sprite> BulletSprite = new("Bullet.png", false);
+
     // Sounds
     public static LoadableAsset<AudioClip> BeepSound = new("Beep.wav");
     public static LoadableAsset<AudioClip> PingSound = new("Ping.mp3");

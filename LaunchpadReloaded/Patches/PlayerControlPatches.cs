@@ -4,6 +4,8 @@ using LaunchpadReloaded.API.Utilities;
 using LaunchpadReloaded.Components;
 using LaunchpadReloaded.Features;
 using LaunchpadReloaded.Roles;
+using LaunchpadReloaded.Weapons;
+using Reactor.Utilities.Extensions;
 using System.Linq;
 using UnityEngine;
 
@@ -31,6 +33,8 @@ public static class PlayerControlPatches
         CustomGameModeManager.ActiveMode.OnDeath(__instance);
         if (__instance.Data.IsHacked())
             HackingManager.RpcUnHackPlayer(__instance);
+
+        __instance.GetWeaponManager().Destroy();
     }
 
     [HarmonyPostfix]
@@ -46,6 +50,9 @@ public static class PlayerControlPatches
     [HarmonyPatch("Start")]
     public static void StartPrefix(PlayerControl __instance)
     {
+        __instance.gameObject.AddComponent<WeaponManager>();
+        __instance.GetWeaponManager().GiveGun<FastRifle>();
+
         var gradColorComponent = __instance.gameObject.AddComponent<PlayerGradientData>();
         if (__instance.AmOwner)
         {
