@@ -23,7 +23,7 @@ public static class MeetingHudPatches
     {
         foreach (var plr in LaunchpadPlayer.GetAllPlayers())
         {
-            plr.VoteData.VotesRemaining = VotingTypesManager.GetVotes();
+            plr.VoteData.VotesRemaining = VotingTypesManager.GetMaxVotes();
             plr.VoteData.VotedPlayers.Clear();
 
             if (plr.player.Data.Role is MayorRole)
@@ -70,7 +70,7 @@ public static class MeetingHudPatches
         if (!_typeText) return;
 
         var tmp = _typeText.GetComponent<TextMeshPro>();
-        tmp.text = VotingTypesManager.SelectedType != Features.VotingTypes.Classic ? $"<size=160%>{LaunchpadPlayer.LocalPlayer.VoteData.VotesRemaining} votes left</size>\nVoting Type: {VotingTypesManager.SelectedType}" : $"<size=160%>{LaunchpadPlayer.LocalPlayer.VoteData.VotesRemaining} votes left</size>";
+        tmp.text = VotingTypesManager.SelectedType != Features.Voting.VotingTypes.Classic ? $"<size=160%>{LaunchpadPlayer.LocalPlayer.VoteData.VotesRemaining} votes left</size>\nVoting Type: {VotingTypesManager.SelectedType}" : $"<size=160%>{LaunchpadPlayer.LocalPlayer.VoteData.VotesRemaining} votes left</size>";
 
         var logicOptionsNormal = GameManager.Instance.LogicOptions.TryCast<LogicOptionsNormal>();
 

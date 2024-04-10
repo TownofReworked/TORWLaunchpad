@@ -1,4 +1,4 @@
-﻿namespace LaunchpadReloaded.Features;
+﻿namespace LaunchpadReloaded.Features.Voting;
 public enum VotingTypes
 {
     Classic,

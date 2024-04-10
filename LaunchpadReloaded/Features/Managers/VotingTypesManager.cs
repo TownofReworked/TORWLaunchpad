@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using LaunchpadReloaded.Features.Voting;
 using TMPro;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -16,14 +17,30 @@ public static class VotingTypesManager
         private set => LaunchpadGameOptions.Instance.VotingType.SetValue((int)value);
     }
 
-    public static readonly byte[] RecommendedVotes =
-    [
-        1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5
-    ];
+    private static byte[] RecommendedVotes
+    {
+        get
+        {
+            return (VoteLimitType)LaunchpadGameOptions.Instance.VoteLimitType.IndexValue switch
+            {
+                VoteLimitType.Disabled => [],
+                VoteLimitType.Normal => [1, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5],
+                VoteLimitType.Lenient => [1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5],
+                VoteLimitType.Strict => [1, 1, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5],
+                _ => [1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5]
+            };
+        }
+    }
 
-    public static int GetDynamicVotes() => (int)Math.Min(RecommendedVotes[Math.Min(Math.Clamp(LaunchpadPlayer.GetAllAlivePlayers().Count(), 0, 15), RecommendedVotes.Length)], LaunchpadGameOptions.Instance.MaxVotes.Value);
+    private static int GetDynamicVotes()
+    {
+        return 
+            (int)Math.Min(
+                RecommendedVotes[Math.Clamp(LaunchpadPlayer.GetAllAlivePlayers().Count(), 0, RecommendedVotes.Length)], 
+                LaunchpadGameOptions.Instance.MaxVotes.Value);
+    }
 
-    public static int GetVotes()
+    public static int GetMaxVotes()
     {
         switch (SelectedType)
         {

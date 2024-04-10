@@ -1,7 +1,9 @@
+using System;
 using LaunchpadReloaded.API.GameModes;
 using LaunchpadReloaded.API.GameOptions;
 using LaunchpadReloaded.API.Roles;
 using LaunchpadReloaded.Features.Managers;
+using LaunchpadReloaded.Features.Voting;
 using LaunchpadReloaded.Networking;
 using Reactor.Networking.Rpc;
 
@@ -16,6 +18,7 @@ public class LaunchpadGameOptions
 
     // Voting Types
     public readonly CustomStringOption VotingType;
+    public readonly CustomStringOption VoteLimitType;
     public readonly CustomNumberOption MaxVotes;
     public readonly CustomToggleOption AllowVotingForSamePerson;
     public readonly CustomToggleOption AllowConfirmingVotes;
@@ -54,16 +57,16 @@ public class LaunchpadGameOptions
             }
         };
 
-        VotingType = new CustomStringOption("Voting Type", 0, ["Classic", "Multiple", "Chance", "Combined"]);
+        VotingType = new CustomStringOption("Voting Type", 0, Enum.GetNames<VotingTypes>());
 
-        MaxVotes = new CustomNumberOption("Max Votes", 3, 2, 5, 1, NumberSuffixes.None)
+        VoteLimitType = new CustomStringOption("Dynamic Vote Limit", 1, Enum.GetNames<VoteLimitType>())
         {
             Hidden = () => !VotingTypesManager.CanVoteMultiple()
         };
-
-        HideVotingIcons = new CustomToggleOption("Hide Voting Icons", false)
+        
+        MaxVotes = new CustomNumberOption("Max Votes", 3, 2, 5, 1, NumberSuffixes.None)
         {
-            Hidden = () => !VotingTypesManager.UseChance() && !ShowPercentages.Value
+            Hidden = () => !VotingTypesManager.CanVoteMultiple()
         };
 
         ShowPercentages = new CustomToggleOption("Show Percentages", false)
@@ -71,6 +74,11 @@ public class LaunchpadGameOptions
             Hidden = VotingTypesManager.UseChance
         };
 
+        HideVotingIcons = new CustomToggleOption("Hide Voting Icons", false)
+        {
+            Hidden = () => !VotingTypesManager.UseChance() && !ShowPercentages.Value
+        };
+        
         AllowConfirmingVotes = new CustomToggleOption("Allow Confirming Votes", false)
         {
             Hidden = VotingTypesManager.CanVoteMultiple

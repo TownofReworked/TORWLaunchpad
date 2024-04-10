@@ -1,4 +1,4 @@
-﻿namespace LaunchpadReloaded.Features;
+﻿namespace LaunchpadReloaded.Features.Voting;
 public struct CustomVote(byte voter, byte suspect)
 {
     public readonly byte Voter = voter;
