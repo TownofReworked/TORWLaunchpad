@@ -2,6 +2,7 @@
 using HarmonyLib;
 using LaunchpadReloaded.Features;
 using LaunchpadReloaded.Features.Managers;
+using LaunchpadReloaded.Features.Translations;
 using LaunchpadReloaded.Networking;
 using LaunchpadReloaded.Utilities;
 using Reactor.Networking.Rpc;
@@ -51,7 +52,7 @@ public static class PlayerTabPatches
             _buttonText = buttonText.GetComponent<TextMeshPro>();
             _buttonText.alignment = TextAlignmentOptions.Center;
             _buttonText.richText = true;
-            _buttonText.fontSize = _buttonText.fontSizeMax = 3.5f;
+            _buttonText.fontSize = _buttonText.fontSizeMax = 2.8f;
 
             _switchButton.Button.OnClick.RemoveAllListeners();
             _switchButton.Button.OnMouseOut.RemoveAllListeners();
@@ -81,7 +82,7 @@ public static class PlayerTabPatches
             {
                 Rpc<CustomCheckColorRpc>.Instance.SendTo(AmongUsClient.Instance.HostId,
                     new CustomCheckColorRpc.Data(
-                        (byte)PlayerControl.LocalPlayer.Data.DefaultOutfit.ColorId, 
+                        (byte)PlayerControl.LocalPlayer.Data.DefaultOutfit.ColorId,
                         (byte)__instance.currentColor));
             }
             return false;
@@ -126,20 +127,22 @@ public static class PlayerTabPatches
     {
         if (_buttonText && _titleText)
         {
-            _buttonText.text = SelectGradient ? "Main Color" : "Secondary\nColor";
-            _titleText.text = SelectGradient ? "Secondary Color: " : "Main Color: ";
+            _buttonText.text = SelectGradient ? TranslationController.Instance.GetString((StringNames)TranslationStringNames.MainColor) :
+                TranslationController.Instance.GetString((StringNames)TranslationStringNames.SecondaryColor);
+            _titleText.text = SelectGradient ? TranslationController.Instance.GetString((StringNames)TranslationStringNames.SecondaryColor) :
+            TranslationController.Instance.GetString((StringNames)TranslationStringNames.MainColor);
         }
 
         if (SelectGradient)
         {
             __instance.currentColorIsEquipped = __instance.currentColor == GradientManager.LocalGradientId;
         }
-        
+
         var mat = __instance.PlayerPreview.cosmetics.currentBodySprite.BodySprite.material;
-    
+
         mat.SetFloat(ShaderID.GradientBlend, 2);
         mat.SetFloat(ShaderID.GradientOffset, .4f);
-    
+
 
 
     }

@@ -1,5 +1,6 @@
 ﻿using LaunchpadReloaded.API.Hud;
 using LaunchpadReloaded.Features;
+using LaunchpadReloaded.Features.Translations;
 using LaunchpadReloaded.Roles;
 using LaunchpadReloaded.Utilities;
 using UnityEngine;
@@ -7,12 +8,12 @@ using UnityEngine;
 namespace LaunchpadReloaded.Buttons;
 public class ShootButton : CustomActionButton
 {
-    public override string Name => "Shoot";
+    public override TranslationStringNames Name => TranslationStringNames.SheriffShoot;
     public override float Cooldown => SheriffRole.ShootCooldown.Value;
     public override float EffectDuration => 0;
     public override int MaxUses => (int)SheriffRole.Shots.Value;
     public override LoadableAsset<Sprite> Sprite => LaunchpadAssets.ShootButton;
-    
+
     private PlayerControl _currentTarget;
 
     public override bool Enabled(RoleBehaviour role) => role is SheriffRole;
@@ -32,14 +33,14 @@ public class ShootButton : CustomActionButton
         {
             return;
         }
-        
+
         _currentTarget = playerControl.GetClosestPlayer(true, GameManager.Instance.LogicOptions.GetKillDistance());
 
         if (!_currentTarget)
         {
             return;
         }
-        
+
         _currentTarget.cosmetics.currentBodySprite.BodySprite.material.SetFloat(ShaderID.Outline, 1);
         _currentTarget.cosmetics.currentBodySprite.BodySprite.material.SetColor(ShaderID.OutlineColor, LaunchpadPalette.SheriffColor);
     }

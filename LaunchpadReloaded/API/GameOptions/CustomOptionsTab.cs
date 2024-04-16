@@ -1,6 +1,7 @@
-﻿using System;
-using LaunchpadReloaded.Features;
+﻿using LaunchpadReloaded.Features;
+using LaunchpadReloaded.Features.Translations;
 using Reactor.Utilities.Extensions;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -40,7 +41,7 @@ public static class CustomOptionsTab
         newResetBtn.gameObject.name = "LaunchpadReset";
 
         var tmp = newResetBtn.GetComponentInChildren<TextMeshPro>();
-        tmp.text = "Reset Options";
+        tmp.text = TranslationController.Instance.GetString((StringNames)TranslationStringNames.ResetOptionsText);
         tmp.alignment = TextAlignmentOptions.Center;
         tmp.gameObject.transform.localPosition = new Vector3(0, 0, 0);
 
@@ -53,8 +54,8 @@ public static class CustomOptionsTab
         toggle.OnMouseOver.RemoveAllListeners();
         toggle.OnMouseOut.RemoveAllListeners();
         toggle.OnClick.AddListener((UnityAction)(() => { CustomOptionsManager.ResetToDefault(); }));
-        toggle.OnMouseOver.AddListener((UnityAction)(() => { tmp.text = "<b>Reset Options</b>"; }));
-        toggle.OnMouseOut.AddListener((UnityAction)(() => { tmp.text = "Reset Options"; }));
+        toggle.OnMouseOver.AddListener((UnityAction)(() => { tmp.text = $"<b>{TranslationController.Instance.GetString((StringNames)TranslationStringNames.ResetOptionsText)}</b>"; }));
+        toggle.OnMouseOut.AddListener((UnityAction)(() => { tmp.text = TranslationController.Instance.GetString((StringNames)TranslationStringNames.ResetOptionsText); }));
     }
 
     private static void UpdateListeners(GameSettingMenu __instance, PassiveButton gameB, PassiveButton roleB, SpriteRenderer rend)
@@ -156,7 +157,10 @@ public static class CustomOptionsTab
         var launchpadGroup = newSettings.transform.FindChild("GameGroup").gameObject;
         var text = launchpadGroup.transform.FindChild("Text").gameObject.GetComponent<TextMeshPro>();
         text.gameObject.GetComponent<TextTranslatorTMP>().Destroy();
-        text.text = "Launchpad Settings";
+        text.text = TranslationController.Instance.GetString((StringNames)TranslationStringNames.OptionsText, new Il2CppSystem.Object[]
+            {
+                "Launchpad"
+            });
 
         return newSettings;
     }

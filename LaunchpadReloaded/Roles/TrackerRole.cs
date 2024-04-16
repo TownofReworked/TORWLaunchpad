@@ -2,6 +2,7 @@ using LaunchpadReloaded.API.GameOptions;
 using LaunchpadReloaded.API.Roles;
 using LaunchpadReloaded.Features;
 using LaunchpadReloaded.Features.Managers;
+using LaunchpadReloaded.Features.Translations;
 using LaunchpadReloaded.Utilities;
 using Reactor.Utilities.Attributes;
 using System;
@@ -12,10 +13,10 @@ namespace LaunchpadReloaded.Roles;
 [RegisterInIl2Cpp]
 public class TrackerRole(IntPtr ptr) : CrewmateRole(ptr), ICustomRole
 {
-    public string RoleName => "Tracker";
+    public TranslationStringNames RoleName => TranslationStringNames.TrackerRoleName;
     public ushort RoleId => (ushort)LaunchpadRoles.Tracker;
-    public string RoleDescription => "Track a player's movements.";
-    public string RoleLongDescription => "Place a tracker on a player to track their movements on the map.\nPlace scanners to detect nearby player movement.\n";
+    public TranslationStringNames RoleDescription => TranslationStringNames.TrackerShortDesc;
+    public TranslationStringNames RoleLongDescription => TranslationStringNames.TrackerLongDesc;
     public Color RoleColor => LaunchpadPalette.TrackerColor;
     public RoleTeamTypes Team => RoleTeamTypes.Crewmate;
     public LoadableAsset<Sprite> Icon => LaunchpadAssets.TrackButton;
@@ -27,25 +28,35 @@ public class TrackerRole(IntPtr ptr) : CrewmateRole(ptr), ICustomRole
         {
             if (TrackingManager.Instance.TrackerDisconnected)
             {
-                taskStringBuilder.AppendLine("<color=red>Tracker Disconnected.</color>");
+                taskStringBuilder.AppendLine(TranslationController.Instance.GetString((StringNames)TranslationStringNames.TrackerDisconnectedText));
             }
             else
             {
-                taskStringBuilder.AppendLine($"Tracking: <b>{TrackingManager.Instance.TrackedPlayer.Data.Color.ToTextColor()}{TrackingManager.Instance.TrackedPlayer.Data.PlayerName}</b></color>");
-                taskStringBuilder.AppendLine("Next ping in " + (int)TrackingManager.Instance.Timer + " seconds.\n");
+                taskStringBuilder.AppendLine(TranslationController.Instance.GetString((StringNames)TranslationStringNames.TrackingPlayerText, new Il2CppSystem.Object[]
+                {
+                    TrackingManager.Instance.TrackedPlayer.Data.Color.ToTextColor() + TrackingManager.Instance.TrackedPlayer.Data.PlayerName
+                }));
+
+                taskStringBuilder.AppendLine(TranslationController.Instance.GetString((StringNames)TranslationStringNames.NextPingText, new Il2CppSystem.Object[]
+                {
+                    (int)TrackingManager.Instance.Timer
+                }));
             }
         }
 
         if (ScannerManager.Instance.scanners.Count > 0)
         {
-            taskStringBuilder.AppendLine("<b>Created Scanners:</b>");
+            taskStringBuilder.AppendLine(TranslationController.Instance.GetString((StringNames)TranslationStringNames.CreatedScannersText));
         }
 
         foreach (var component in ScannerManager.Instance.scanners)
         {
             if (component.room)
             {
-                taskStringBuilder.AppendLine($"Scanner {component.id} ({component.room.RoomId})");
+                taskStringBuilder.AppendLine(TranslationController.Instance.GetString((StringNames)TranslationStringNames.ScannerText, new Il2CppSystem.Object[]
+                {
+                    component.id, component.room.RoomId.ToString()
+                }));
             }
         }
         return taskStringBuilder;
@@ -57,30 +68,31 @@ public class TrackerRole(IntPtr ptr) : CrewmateRole(ptr), ICustomRole
     public static CustomOptionGroup Group;
     public void CreateOptions()
     {
-        PingTimer = new CustomNumberOption("Tracker Ping Timer",
+        PingTimer = new CustomNumberOption(TranslationStringNames.TrackerPingTimer,
             defaultValue: 7,
             3, 30,
             increment: 1,
             suffixType: NumberSuffixes.Seconds,
             role: typeof(TrackerRole));
 
-        MaxScanners = new CustomNumberOption("Max Scanners",
+        MaxScanners = new CustomNumberOption(TranslationStringNames.TrackerMaxScanners,
             defaultValue: 3,
             1, 15,
             increment: 1,
             suffixType: NumberSuffixes.None,
             role: typeof(TrackerRole));
 
-        ScannerCooldown = new CustomNumberOption("Place Scanner Cooldown",
+        ScannerCooldown = new CustomNumberOption(TranslationStringNames.TrackerScannerPlaceCooldown,
             defaultValue: 5,
             1, 20,
             increment: 2,
             suffixType: NumberSuffixes.Seconds,
             role: typeof(TrackerRole));
 
-        Group = new CustomOptionGroup($"{RoleColor.ToTextColor()}Tracker</color>",
+        Group = new CustomOptionGroup(RoleName,
             numberOpt: [PingTimer, MaxScanners, ScannerCooldown],
             stringOpt: [],
             toggleOpt: [], role: typeof(TrackerRole));
+        Group.SetColor(RoleColor);
     }
 }

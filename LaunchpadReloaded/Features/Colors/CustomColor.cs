@@ -1,26 +1,26 @@
-﻿using Reactor.Localization.Utilities;
+﻿using LaunchpadReloaded.Features.Translations;
 using UnityEngine;
 
 namespace LaunchpadReloaded.Features.Colors;
 public class CustomColor
 {
-    public CustomColor(Color32 mainColor, string name)
+    public CustomColor(Color32 mainColor, TranslationStringNames name)
     {
         MainColor = mainColor;
         ShadowColor = GetShadowColor(mainColor, 60);
-        Name = CustomStringName.CreateAndRegister(name);
+        Name = name;
     }
 
-    public CustomColor(Color32 mainColor, Color32 shadowColor, string name)
+    public CustomColor(Color32 mainColor, Color32 shadowColor, TranslationStringNames name)
     {
         MainColor = mainColor;
         ShadowColor = shadowColor;
-        Name = CustomStringName.CreateAndRegister(name);
+        Name = name;
     }
 
     public Color32 MainColor { get; }
     public Color32 ShadowColor { get; }
-    public StringNames Name { get; }
+    public TranslationStringNames Name { get; }
 
     public static Color32 GetShadowColor(Color32 c, byte darknessAmount)
     {

@@ -3,6 +3,7 @@ using Il2CppSystem.Text;
 using LaunchpadReloaded.API.GameOptions;
 using LaunchpadReloaded.API.Roles;
 using LaunchpadReloaded.Features;
+using LaunchpadReloaded.Features.Translations;
 using Reactor.Utilities.Attributes;
 using UnityEngine;
 
@@ -11,10 +12,10 @@ namespace LaunchpadReloaded.Roles;
 [RegisterInIl2Cpp]
 public class JesterRole(System.IntPtr ptr) : RoleBehaviour(ptr), ICustomRole
 {
-    public string RoleName => "Jester";
+    public TranslationStringNames RoleName => TranslationStringNames.JesterRoleName;
     public ushort RoleId => (ushort)LaunchpadRoles.Jester;
-    public string RoleDescription => "Get ejected to win";
-    public string RoleLongDescription => "Convince the crew to vote you out by being suspicious.\nIf you get voted out, you win the game.";
+    public TranslationStringNames RoleDescription => TranslationStringNames.JesterShortDesc;
+    public TranslationStringNames RoleLongDescription => TranslationStringNames.JesterLongDesc;
     public Color RoleColor => LaunchpadPalette.JesterColor;
     public RoleTeamTypes Team => RoleTeamTypes.Crewmate;
     public bool IsOutcast => true;
@@ -61,10 +62,11 @@ public class JesterRole(System.IntPtr ptr) : RoleBehaviour(ptr), ICustomRole
     public static CustomOptionGroup Group;
     public void CreateOptions()
     {
-        CanUseVents = new("Can Use Vents", true, typeof(JesterRole));
-        Group = new CustomOptionGroup($"{RoleColor.ToTextColor()}Jester</color>",
+        CanUseVents = new(TranslationStringNames.JesterCanUseVents, true, typeof(JesterRole));
+        Group = new CustomOptionGroup(RoleName,
             numberOpt: [],
             stringOpt: [],
             toggleOpt: [CanUseVents], role: typeof(JesterRole));
+        Group.SetColor(RoleColor);
     }
 }

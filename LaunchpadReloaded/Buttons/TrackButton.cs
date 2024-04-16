@@ -1,6 +1,7 @@
 ﻿using LaunchpadReloaded.API.Hud;
 using LaunchpadReloaded.Features;
 using LaunchpadReloaded.Features.Managers;
+using LaunchpadReloaded.Features.Translations;
 using LaunchpadReloaded.Roles;
 using LaunchpadReloaded.Utilities;
 using UnityEngine;
@@ -8,12 +9,12 @@ using UnityEngine;
 namespace LaunchpadReloaded.Buttons;
 public class TrackButton : CustomActionButton
 {
-    public override string Name => "Place Tracker";
+    public override TranslationStringNames Name => TranslationStringNames.TrackerTrack;
     public override float Cooldown => 0;
     public override float EffectDuration => 0;
     public override int MaxUses => 1;
     public override LoadableAsset<Sprite> Sprite => LaunchpadAssets.TrackButton;
-    
+
     private PlayerControl _currentTarget;
 
     public override bool Enabled(RoleBehaviour role) => role is TrackerRole;
@@ -27,7 +28,7 @@ public class TrackButton : CustomActionButton
             TrackingManager.Instance.TrackingUpdate();
             return;
         }
-        
+
         if (_currentTarget)
         {
             _currentTarget.cosmetics.currentBodySprite.BodySprite.material.SetFloat(ShaderID.Outline, 0);
@@ -38,7 +39,7 @@ public class TrackButton : CustomActionButton
         {
             return;
         }
-        
+
         _currentTarget = playerControl.GetClosestPlayer(true, 1.5f);
 
         if (!_currentTarget)

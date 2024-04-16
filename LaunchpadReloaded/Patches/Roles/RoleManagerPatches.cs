@@ -1,7 +1,6 @@
 ﻿using AmongUs.GameOptions;
 using HarmonyLib;
 using LaunchpadReloaded.API.Roles;
-using UnityEngine;
 
 namespace LaunchpadReloaded.Patches.Roles;
 
@@ -18,7 +17,6 @@ public static class RoleManagerPatches
 
         if (plr.Data.Role is ICustomRole role)
         {
-            Debug.Log(role.RoleName);
             if (role.GhostRole != RoleTypes.CrewmateGhost && role.GhostRole != RoleTypes.ImpostorGhost)
             {
                 plr.RpcSetRole(role.GhostRole);

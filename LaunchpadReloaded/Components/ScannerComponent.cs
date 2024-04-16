@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using LaunchpadReloaded.Features;
+﻿using LaunchpadReloaded.Features;
 using LaunchpadReloaded.Features.Managers;
+using LaunchpadReloaded.Features.Translations;
 using LaunchpadReloaded.Roles;
 using LaunchpadReloaded.Utilities;
 using Reactor.Utilities.Attributes;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace LaunchpadReloaded.Components;
@@ -24,7 +25,7 @@ public class ScannerComponent(IntPtr ptr) : MonoBehaviour(ptr)
         {
             return;
         }
-        
+
         room = gameObject.AddComponent<PlainShipRoom>();
         switch (ShipStatus.Instance.Type)
         {
@@ -55,7 +56,10 @@ public class ScannerComponent(IntPtr ptr) : MonoBehaviour(ptr)
 
         if (PlayerControl.LocalPlayer.Data.Role is TrackerRole)
         {
-            Helpers.SendNotification($"<b>{room.RoomId} Scanner:</b>{player.Data.Color.ToTextColor()} {player.Data.PlayerName}</color>", Color.white, 1.4f);
+            Helpers.SendNotification(TranslationController.Instance.GetString((StringNames)TranslationStringNames.ScannerNotificationText, new Il2CppSystem.Object[]
+            {
+                room.RoomId.ToString(), player.Data.Color.ToTextColor() + player.Data.PlayerName
+            }), Color.white, 1.4f);
             SoundManager.Instance.PlaySoundImmediate(LaunchpadAssets.BeepSound.LoadAsset(), false, 0.3f);
             return;
         }
@@ -63,7 +67,7 @@ public class ScannerComponent(IntPtr ptr) : MonoBehaviour(ptr)
         if (player.AmOwner)
         {
             SoundManager.Instance.PlaySoundImmediate(LaunchpadAssets.BeepSound.LoadAsset(), false, 0.5f);
-            Helpers.SendNotification($"<b>You have triggered the scanner.</b>\n{LaunchpadPalette.TrackerColor.ToTextColor()}The Tracker will be notified.</color>", Color.white, 1.4f, 2.4f);
+            Helpers.SendNotification(TranslationController.Instance.GetString((StringNames)TranslationStringNames.ScannerNotifiedText), Color.white, 1.4f, 2.4f);
         }
     }
 }

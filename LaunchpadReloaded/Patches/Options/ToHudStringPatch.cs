@@ -1,12 +1,13 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using LaunchpadReloaded.API.GameModes;
 using LaunchpadReloaded.API.GameOptions;
 using LaunchpadReloaded.API.Roles;
+using LaunchpadReloaded.Features.Translations;
 using LaunchpadReloaded.Utilities;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace LaunchpadReloaded.Patches.Options;
 
@@ -24,34 +25,34 @@ public static class ToHudStringPatch
     public static void AddOptions(StringBuilder sb,
         IEnumerable<CustomNumberOption> numberOptions, IEnumerable<CustomStringOption> stringOptions, IEnumerable<CustomToggleOption> toggleOptions)
     {
-        foreach (var numberOption in numberOptions.Where(x=>!x.Hidden()))
+        foreach (var numberOption in numberOptions.Where(x => !x.Hidden()))
         {
             if (GameManager.Instance.IsHideAndSeek() && !numberOption.ShowInHideNSeek)
             {
                 continue;
             }
-            
-            sb.AppendLine(numberOption.Title + ": " + numberOption.Value + Helpers.GetSuffix(numberOption.SuffixType));
+
+            sb.AppendLine(TranslationController.Instance.GetString((StringNames)numberOption.Title) + ": " + numberOption.Value + Helpers.GetSuffix(numberOption.SuffixType));
         }
 
-        foreach (var toggleOption in toggleOptions.Where(x=>!x.Hidden()))
+        foreach (var toggleOption in toggleOptions.Where(x => !x.Hidden()))
         {
             if (GameManager.Instance.IsHideAndSeek() && !toggleOption.ShowInHideNSeek)
             {
                 continue;
             }
 
-            sb.AppendLine(toggleOption.Title + ": " + (toggleOption.Value ? "On" : "Off"));
+            sb.AppendLine(TranslationController.Instance.GetString((StringNames)toggleOption.Title) + ": " + (toggleOption.Value ? "On" : "Off"));
         }
 
-        foreach (var stringOption in stringOptions.Where(x=>!x.Hidden()))
+        foreach (var stringOption in stringOptions.Where(x => !x.Hidden()))
         {
             if (GameManager.Instance.IsHideAndSeek() && !stringOption.ShowInHideNSeek)
             {
                 continue;
             }
 
-            sb.AppendLine(stringOption.Title + ": " + stringOption.Value);
+            sb.AppendLine(TranslationController.Instance.GetString((StringNames)stringOption.Title) + ": " + stringOption.Value);
         }
     }
 
@@ -93,13 +94,18 @@ public static class ToHudStringPatch
 
         if (ShowCustom || !CustomGameModeManager.ActiveMode.CanAccessSettingsTab())
         {
-            var sb = new StringBuilder("<size=180%><b>Launchpad Options:</b></size>\n<size=130%>");
+            var sb = new StringBuilder($"<size=180%><b>{TranslationController.Instance.GetString((StringNames)TranslationStringNames.OptionsText, new Il2CppSystem.Object[]
+            {
+                "Launchpad"
+            })}:</b></size>\n<size=130%>");
             var groupsWithRoles = CustomOptionsManager.CustomGroups.Where(group => group.AdvancedRole != null);
             var groupsWithoutRoles = CustomOptionsManager.CustomGroups.Where(group => group.AdvancedRole == null);
-            
-            var suffix = CustomGameModeManager.ActiveMode.CanAccessSettingsTab() ? "\nPress <b>Tab</b> to view Normal Options" :
-                $"\n<b>You can not access Normal Options on {CustomGameModeManager.ActiveMode.Name} mode.</b>";
-            
+
+            var suffix = TranslationController.Instance.GetString((StringNames)TranslationStringNames.PressTabToSwitch, new Il2CppSystem.Object[]
+            {
+                "Normal"
+            });
+
             AddOptions(sb,
                 CustomOptionsManager.CustomNumberOptions.Where(option => option.Group == null && !option.Hidden()),
                 CustomOptionsManager.CustomStringOptions.Where(option => option.Group == null && !option.Hidden()),
@@ -108,12 +114,12 @@ public static class ToHudStringPatch
 
             foreach (var group in groupsWithoutRoles)
             {
-                if (group.Hidden() || (GameManager.Instance.IsHideAndSeek() && !group.Options.Any(x=>x.ShowInHideNSeek)))
+                if (group.Hidden() || (GameManager.Instance.IsHideAndSeek() && !group.Options.Any(x => x.ShowInHideNSeek)))
                 {
                     continue;
                 }
 
-                sb.AppendLine($"\n<size=160%><b>{group.Title}</b></size>");
+                sb.AppendLine($"\n<size=160%><b>{TranslationController.Instance.GetString((StringNames)group.Title)}</b></size>");
                 AddOptions(sb, group.CustomNumberOptions, group.CustomStringOptions, group.CustomToggleOptions);
             }
 
@@ -122,11 +128,11 @@ public static class ToHudStringPatch
                 __result = sb + suffix;
                 return;
             }
-            
+
             var customOptionGroups = groupsWithRoles as CustomOptionGroup[] ?? groupsWithRoles.ToArray();
             if (customOptionGroups.Any() && CustomGameModeManager.ActiveMode.CanAccessRolesTab())
             {
-                sb.AppendLine("\n<size=160%><b>Roles</b></size>");
+                sb.AppendLine($"\n<size=160%><b>{TranslationController.Instance.GetString((StringNames)TranslationStringNames.RolesText)}</b></size>");
 
                 foreach (var group in customOptionGroups)
                 {
@@ -134,8 +140,7 @@ public static class ToHudStringPatch
                     {
                         continue;
                     }
-
-                    sb.AppendLine($"<size=140%><b>{group.Title}</b></size><size=120%>");
+                    sb.AppendLine($"<size=140%><b>{group.Color.ToTextColor()}{TranslationController.Instance.GetString((StringNames)group.Title)}</color></b></size><size=120%>");
                     AddOptions(sb, group.CustomNumberOptions, group.CustomStringOptions, group.CustomToggleOptions);
                     sb.Append("</size>\n");
                 }
@@ -145,6 +150,12 @@ public static class ToHudStringPatch
             return;
         }
 
-        __result = "<size=160%><b>Normal Options:</b></size>\n<size=130%>" + __result + "\nPress <b>Tab</b> to view Launchpad Options</size>";
+        __result = $"<size=160%><b>{TranslationController.Instance.GetString((StringNames)TranslationStringNames.OptionsText, new Il2CppSystem.Object[]
+            {
+                "Normal"
+            })}:</b></size>\n<size=130%>" + __result + "\n" + TranslationController.Instance.GetString((StringNames)TranslationStringNames.PressTabToSwitch, new Il2CppSystem.Object[]
+        {
+            "Launchpad"
+        });
     }
 }

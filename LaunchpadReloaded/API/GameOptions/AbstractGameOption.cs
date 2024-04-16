@@ -1,13 +1,12 @@
-﻿using System;
-using LaunchpadReloaded.API.Roles;
-using Reactor.Localization.Utilities;
+﻿using LaunchpadReloaded.API.Roles;
+using LaunchpadReloaded.Features.Translations;
+using System;
 
 namespace LaunchpadReloaded.API.GameOptions;
 
 public abstract class AbstractGameOption
 {
-    public string Title { get; }
-    public StringNames StringName { get; }
+    public TranslationStringNames Title { get; }
     public Type AdvancedRole { get; }
     public bool Save { get; }
     public bool ShowInHideNSeek { get; init; }
@@ -22,10 +21,9 @@ public abstract class AbstractGameOption
 
     protected abstract void OnValueChanged(OptionBehaviour optionBehaviour);
 
-    protected AbstractGameOption(string title, Type roleType, bool save)
+    protected AbstractGameOption(TranslationStringNames title, Type roleType, bool save)
     {
         Title = title;
-        StringName = CustomStringName.CreateAndRegister(Title);
         if (roleType is not null && roleType.IsAssignableTo(typeof(ICustomRole)))
         {
             AdvancedRole = roleType;

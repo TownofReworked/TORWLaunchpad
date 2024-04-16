@@ -92,7 +92,7 @@ public class LaunchpadPlayer(IntPtr ptr) : MonoBehaviour(ptr)
 
         if (player.IsRevived())
         {
-            player.cosmetics.SetOutline(true, new Il2CppSystem.Nullable<Color>(LaunchpadPalette.MedicColor));
+            player.cosmetics.currentBodySprite.BodySprite.material.SetColor(ShaderID.VisorColor, LaunchpadPalette.RevivedVisorColor);
         }
 
         if (player.Data.IsHacked())

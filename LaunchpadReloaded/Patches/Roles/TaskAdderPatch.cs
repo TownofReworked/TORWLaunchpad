@@ -5,6 +5,7 @@ using Il2CppSystem.Collections.Generic;
 using Il2CppSystem.Text;
 using LaunchpadReloaded.API.Roles;
 using LaunchpadReloaded.Features;
+using LaunchpadReloaded.Features.Translations;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -20,7 +21,7 @@ public static class TaskAdderPatch
     {
         RolesFolder = Object.Instantiate(__instance.RootFolderPrefab, __instance.transform);
         RolesFolder.gameObject.SetActive(false);
-        RolesFolder.FolderName = "Roles";
+        RolesFolder.FolderName = TranslationController.Instance.GetString((StringNames)TranslationStringNames.RolesText);
         RolesFolder.name = "RolesFolder";
         __instance.Root.SubFolders.Add(RolesFolder);
         __instance.GoToRoot();
@@ -64,10 +65,10 @@ public static class TaskAdderPatch
         {
             var taskFolder2 = Object.Instantiate(taskFolder.SubFolders.ToArray()[k], __instance.TaskParent);
             var folderTransform = taskFolder2.transform;
-            
+
             taskFolder2.gameObject.SetActive(true);
             taskFolder2.Parent = __instance;
-            
+
             folderTransform.localPosition = new Vector3(num, num2, 0f);
             folderTransform.localScale = Vector3.one;
             num3 = Mathf.Max(num3, taskFolder2.Text.bounds.size.y + 1.1f);
@@ -83,17 +84,17 @@ public static class TaskAdderPatch
             {
                 continue;
             }
-            
+
             ControllerManager.Instance.AddSelectableUiElement(taskFolder2.Button);
             if (!string.IsNullOrEmpty(__instance.restorePreviousSelectionByFolderName) && taskFolder2.FolderName.Equals(__instance.restorePreviousSelectionByFolderName))
             {
                 __instance.restorePreviousSelectionFound = taskFolder2.Button;
             }
         }
-        
+
         var flag = false;
         var list = new List<PlayerTask>();
-        
+
         foreach (var item in taskFolder.Children)
         {
             list.Add(item);
@@ -135,7 +136,7 @@ public static class TaskAdderPatch
             }
         }
 
-        if (taskFolder.FolderName == "Roles") // idk why only this works???
+        if (taskFolder.FolderName == TranslationController.Instance.GetString((StringNames)TranslationStringNames.RolesText)) // idk why only this works???
         {
             for (var m = 0; m < DestroyableSingleton<RoleManager>.Instance.AllRoles.Length; m++)
             {

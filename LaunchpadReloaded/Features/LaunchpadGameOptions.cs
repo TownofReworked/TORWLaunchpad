@@ -2,6 +2,7 @@ using LaunchpadReloaded.API.GameModes;
 using LaunchpadReloaded.API.GameOptions;
 using LaunchpadReloaded.API.Roles;
 using LaunchpadReloaded.Features.Managers;
+using LaunchpadReloaded.Features.Translations;
 using LaunchpadReloaded.Networking;
 using Reactor.Networking.Rpc;
 
@@ -42,7 +43,7 @@ public class LaunchpadGameOptions
 
     private LaunchpadGameOptions()
     {
-        GameModes = new CustomStringOption("Gamemode", 0, ["Default", "Battle Royale"])
+        GameModes = new CustomStringOption(TranslationStringNames.Gamemode, 0, ["Default", "Battle Royale"])
         {
             ChangedEvent = i =>
             {
@@ -54,57 +55,57 @@ public class LaunchpadGameOptions
             }
         };
 
-        VotingType = new CustomStringOption("Voting Type", 0, ["Classic", "Multiple", "Chance", "Combined"]);
+        VotingType = new CustomStringOption(TranslationStringNames.VotingTypes, 0, ["Classic", "Multiple", "Chance", "Combined"]);
 
-        MaxVotes = new CustomNumberOption("Max Votes", 3, 2, 5, 1, NumberSuffixes.None)
+        MaxVotes = new CustomNumberOption(TranslationStringNames.MaxVotes, 3, 2, 5, 1, NumberSuffixes.None)
         {
             Hidden = () => !VotingTypesManager.CanVoteMultiple()
         };
 
-        HideVotingIcons = new CustomToggleOption("Hide Voting Icons", false)
+        HideVotingIcons = new CustomToggleOption(TranslationStringNames.HideVotingIcons, false)
         {
             Hidden = () => !VotingTypesManager.UseChance() && !ShowPercentages.Value
         };
 
-        ShowPercentages = new CustomToggleOption("Show Percentages", false)
+        ShowPercentages = new CustomToggleOption(TranslationStringNames.ShowPercentages, false)
         {
             Hidden = VotingTypesManager.UseChance
         };
 
-        AllowConfirmingVotes = new CustomToggleOption("Allow Confirming Votes", false)
+        AllowConfirmingVotes = new CustomToggleOption(TranslationStringNames.AllowConfirmingVotes, false)
         {
             Hidden = VotingTypesManager.CanVoteMultiple
         };
 
-        AllowVotingForSamePerson = new CustomToggleOption("Allow Voting Same Person Again", true)
+        AllowVotingForSamePerson = new CustomToggleOption(TranslationStringNames.AllowVotingSamePersonAgain, true)
         {
             Hidden = () => !VotingTypesManager.CanVoteMultiple()
         };
 
 
-        VotingGroup = new CustomOptionGroup("Voting Type",
+        VotingGroup = new CustomOptionGroup(TranslationStringNames.VotingTypes,
             toggleOpt: [AllowVotingForSamePerson, ShowPercentages, AllowConfirmingVotes, HideVotingIcons],
             stringOpt: [],
             numberOpt: [MaxVotes]);
 
-        BanCheaters = new CustomToggleOption("Ban Cheaters", true)
+        BanCheaters = new CustomToggleOption(TranslationStringNames.BanCheaters, true)
         {
             ShowInHideNSeek = true
         };
 
-        DisableMeetingTeleport = new CustomToggleOption("Disable Meeting Teleport", false);
+        DisableMeetingTeleport = new CustomToggleOption(TranslationStringNames.DisableMeetingTeleport, false);
 
-        OnlyShowRoleColor = new CustomToggleOption("Reveal Crewmate Roles", false);
+        OnlyShowRoleColor = new CustomToggleOption(TranslationStringNames.RevealCrewmateRoles, false);
 
-        GhostsSeeRoles = new CustomToggleOption("Ghosts See Roles", true);
-        GeneralGroup = new CustomOptionGroup("General Options",
+        GhostsSeeRoles = new CustomToggleOption(TranslationStringNames.GhostsSeeRoles, true);
+        GeneralGroup = new CustomOptionGroup(TranslationStringNames.GeneralOptions,
             toggleOpt: [BanCheaters, OnlyShowRoleColor, DisableMeetingTeleport, GhostsSeeRoles],
             stringOpt: [],
             numberOpt: []);
 
-        FriendlyFire = new CustomToggleOption("Friendly Fire", false);
+        FriendlyFire = new CustomToggleOption(TranslationStringNames.FriendlyFire, false);
 
-        UniqueColors = new CustomToggleOption("Unique Colors", true)
+        UniqueColors = new CustomToggleOption(TranslationStringNames.UniqueColors, true)
         {
             ShowInHideNSeek = true,
             ChangedEvent = value =>
@@ -124,7 +125,7 @@ public class LaunchpadGameOptions
             }
         };
 
-        Character = new CustomStringOption("Character", 0, ["Default", "Horse", "Long"])
+        Character = new CustomStringOption(TranslationStringNames.Character, 0, ["Default", "Horse", "Long"])
         {
             ChangedEvent = i =>
             {
@@ -154,18 +155,18 @@ public class LaunchpadGameOptions
             }
         };
 
-        FunGroup = new CustomOptionGroup("Fun Options",
+        FunGroup = new CustomOptionGroup(TranslationStringNames.FunOptions,
             toggleOpt: [FriendlyFire, UniqueColors],
             stringOpt: [Character],
             numberOpt: []);
 
-        SeekerCharacter = new CustomToggleOption("Use Seeker Character", true);
-        ShowKnife = new CustomToggleOption("Show Knife", true)
+        SeekerCharacter = new CustomToggleOption(TranslationStringNames.UseSeekerCharacter, true);
+        ShowKnife = new CustomToggleOption(TranslationStringNames.ShowKnife, true)
         {
             Hidden = () => SeekerCharacter.Value == false
         };
 
-        BattleRoyaleGroup = new CustomOptionGroup("Battle Royale Options",
+        BattleRoyaleGroup = new CustomOptionGroup(TranslationStringNames.BattleRoyaleOptions,
             toggleOpt: [SeekerCharacter, ShowKnife],
             stringOpt: [],
             numberOpt: [])

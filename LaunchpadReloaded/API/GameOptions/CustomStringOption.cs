@@ -1,8 +1,9 @@
-﻿using System;
-using System.Linq;
-using BepInEx.Configuration;
+﻿using BepInEx.Configuration;
+using LaunchpadReloaded.Features.Translations;
 using Reactor.Localization.Utilities;
 using Reactor.Utilities;
+using System;
+using System.Linq;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -16,18 +17,18 @@ public class CustomStringOption : AbstractGameOption
     public string[] Options { get; private set; }
     public ConfigEntry<int> Config { get; }
     public Action<int> ChangedEvent { get; init; }
-    public CustomStringOption(string title, int defaultValue, string[] options, Type role = null, bool save = true) : base(title, role, save)
+    public CustomStringOption(TranslationStringNames title, int defaultValue, string[] options, Type role = null, bool save = true) : base(title, role, save)
     {
         IndexValue = defaultValue;
         Options = options;
         Default = defaultValue;
-        
+
         CustomOptionsManager.CustomStringOptions.Add(this);
         if (Save)
         {
             try
             {
-                Config = LaunchpadReloadedPlugin.Instance.Config.Bind("String Options", title, defaultValue);
+                Config = LaunchpadReloadedPlugin.Instance.Config.Bind("String Options", LaunchpadTranslator.Instance.GetString(SupportedLangs.English, title), defaultValue);
             }
             catch (Exception e)
             {
@@ -78,14 +79,12 @@ public class CustomStringOption : AbstractGameOption
     public StringOption CreateStringOption(StringOption original, Transform container)
     {
         var stringOption = Object.Instantiate(original, container);
-        
-        stringOption.name = Title;
-        stringOption.Title = StringName;
+        stringOption.Title = (StringNames)Title;
         stringOption.Value = Options.ToList().IndexOf(Value);
         stringOption.Values = Options.Select(CustomStringName.CreateAndRegister).ToArray();
         stringOption.OnValueChanged = (Il2CppSystem.Action<OptionBehaviour>)ValueChanged;
         stringOption.OnEnable();
-        
+
         OptionBehaviour = stringOption;
 
         return stringOption;

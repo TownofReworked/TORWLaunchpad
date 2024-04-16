@@ -1,6 +1,7 @@
 ﻿using LaunchpadReloaded.API.Hud;
 using LaunchpadReloaded.Features;
 using LaunchpadReloaded.Features.Managers;
+using LaunchpadReloaded.Features.Translations;
 using LaunchpadReloaded.Networking;
 using LaunchpadReloaded.Roles;
 using UnityEngine;
@@ -8,7 +9,7 @@ using UnityEngine;
 namespace LaunchpadReloaded.Buttons;
 public class ScannerButton : CustomActionButton
 {
-    public override string Name => "Deploy Scanner";
+    public override TranslationStringNames Name => TranslationStringNames.TrackerScanner;
 
     public override float Cooldown => (int)TrackerRole.ScannerCooldown.Value;
 
@@ -19,7 +20,7 @@ public class ScannerButton : CustomActionButton
     public override LoadableAsset<Sprite> Sprite => LaunchpadAssets.ScannerButton;
 
     public override bool Enabled(RoleBehaviour role) => role is TrackerRole;
-    
+
     public override bool CanUse() => !HackingManager.Instance.AnyPlayerHacked();
 
     protected override void OnClick()

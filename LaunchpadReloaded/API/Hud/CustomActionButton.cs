@@ -1,4 +1,6 @@
-﻿using LaunchpadReloaded.Features;
+﻿using Il2CppSystem;
+using LaunchpadReloaded.Features;
+using LaunchpadReloaded.Features.Translations;
 using LaunchpadReloaded.Utilities;
 using UnityEngine;
 using UnityEngine.Events;
@@ -7,7 +9,7 @@ namespace LaunchpadReloaded.API.Hud;
 
 public abstract class CustomActionButton
 {
-    public abstract string Name { get; }
+    public abstract TranslationStringNames Name { get; }
 
     public abstract float Cooldown { get; }
 
@@ -42,9 +44,9 @@ public abstract class CustomActionButton
         Timer = 0;
         EffectActive = false;
 
-        Button = Object.Instantiate(HudManager.Instance.AbilityButton, parent);
+        Button = GameObject.Instantiate(HudManager.Instance.AbilityButton, parent);
         Button.name = Name + "Button";
-        Button.OverrideText(Name.ToUpper());
+        Button.OverrideText(DestroyableSingleton<TranslationController>.Instance.GetString((StringNames)Name, Array.Empty<Il2CppSystem.Object>()));
 
         Button.graphic.sprite = Sprite.LoadAsset();
 
@@ -64,9 +66,9 @@ public abstract class CustomActionButton
         Button.graphic.sprite = sprite;
     }
 
-    public void OverrideName(string name)
+    public void OverrideName(TranslationStringNames name)
     {
-        Button.OverrideText(name);
+        Button.OverrideText(DestroyableSingleton<TranslationController>.Instance.GetString((StringNames)name, Array.Empty<Il2CppSystem.Object>()));
     }
 
     protected virtual void FixedUpdate(PlayerControl playerControl) { }

@@ -1,4 +1,5 @@
 using BepInEx.Configuration;
+using LaunchpadReloaded.Features.Translations;
 using Reactor.Utilities;
 using System;
 using UnityEngine;
@@ -19,7 +20,7 @@ public class CustomNumberOption : AbstractGameOption
     public ConfigEntry<float> Config { get; }
     public Action<float> ChangedEvent { get; set; }
 
-    public CustomNumberOption(string title, float defaultValue, float min, float max, float increment, NumberSuffixes suffixType, bool zeroInfinity = false, string numberFormat = "0", Type role = null, bool save = true) : base(title, role, save)
+    public CustomNumberOption(TranslationStringNames title, float defaultValue, float min, float max, float increment, NumberSuffixes suffixType, bool zeroInfinity = false, string numberFormat = "0", Type role = null, bool save = true) : base(title, role, save)
     {
         Value = defaultValue;
         Default = defaultValue;
@@ -34,7 +35,7 @@ public class CustomNumberOption : AbstractGameOption
         {
             try
             {
-                Config = LaunchpadReloadedPlugin.Instance.Config.Bind("Number Options", title, defaultValue);
+                Config = LaunchpadReloadedPlugin.Instance.Config.Bind("Number Options", LaunchpadTranslator.Instance.GetString(SupportedLangs.English, title), defaultValue);
             }
             catch (Exception e)
             {
@@ -78,8 +79,7 @@ public class CustomNumberOption : AbstractGameOption
     {
         var numberOption = Object.Instantiate(original, container);
 
-        numberOption.name = Title;
-        numberOption.Title = StringName;
+        numberOption.Title = (StringNames)Title;
         numberOption.Value = Value;
         numberOption.Increment = Increment;
         numberOption.SuffixType = SuffixType;

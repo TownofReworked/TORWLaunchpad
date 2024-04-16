@@ -1,0 +1,13 @@
+{
+  "RoleTabTitle": "Você é um {0}",
+  "CaptainRoleName": "Capitão",
+  "CaptainShortDesc": "Proteja a tripulação com suas habilidades",
+  "CaptainLongDesc": "Use o zoom para ficar de olho na equipe\nE convoque reuniões de qualquer lugar!",
+  "CaptainCall": "Chamar",
+  "CaptainZoom": "Ampliação",
+  "CaptainMeetingCooldown": "Tempo de espera da reunião",
+  "CaptainMeetingCount": "Usos de reuniões",
+  "ZoomCooldown": "Resfriamento de zoom",
+  "ZoomDuration": "Duração do zoom",
+  "ZoomDistance": "Distância de zoom"
+}

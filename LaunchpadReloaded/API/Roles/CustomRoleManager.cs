@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using AmongUs.GameOptions;
+﻿using AmongUs.GameOptions;
 using Il2CppInterop.Runtime;
-using Reactor.Localization.Utilities;
 using Reactor.Networking.Rpc;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using TMPro;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -56,9 +55,9 @@ public static class CustomRoleManager
         roleBehaviour.Role = (RoleTypes)customRole.RoleId;
         roleBehaviour.TeamType = customRole.Team;
         roleBehaviour.NameColor = customRole.RoleColor;
-        roleBehaviour.StringName = CustomStringName.CreateAndRegister(customRole.RoleName);
-        roleBehaviour.BlurbName = CustomStringName.CreateAndRegister(customRole.RoleDescription);
-        roleBehaviour.BlurbNameLong = CustomStringName.CreateAndRegister(customRole.RoleLongDescription);
+        roleBehaviour.StringName = (StringNames)customRole.RoleName;
+        roleBehaviour.BlurbName = (StringNames)customRole.RoleDescription;
+        roleBehaviour.BlurbNameLong = (StringNames)customRole.RoleLongDescription;
         roleBehaviour.AffectedByLightAffectors = customRole.AffectedByLight;
         roleBehaviour.CanBeKilled = customRole.CanGetKilled;
         roleBehaviour.CanUseKillButton = customRole.CanKill;
@@ -108,7 +107,6 @@ public static class CustomRoleManager
         newPanel.open = false;
 
         var tab = newPanel.tab.gameObject;
-        tab.GetComponentInChildren<TextTranslatorTMP>().Destroy();
 
         newPanel.transform.localPosition = ogPanel.transform.localPosition - new Vector3(0, 1, 0);
 
@@ -120,9 +118,9 @@ public static class CustomRoleManager
     {
         var tabText = panel.tab.gameObject.GetComponentInChildren<TextMeshPro>();
         var ogPanel = HudManager.Instance.TaskStuff.transform.FindChild("TaskPanel").gameObject.GetComponent<TaskPanelBehaviour>();
-        if (tabText.text != role.RoleName)
+        if (tabText.text != TranslationController.Instance.GetString((StringNames)role.RoleName))
         {
-            tabText.text = role.RoleName;
+            tabText.text = TranslationController.Instance.GetString((StringNames)role.RoleName);
         }
 
         var y = ogPanel.taskText.textBounds.size.y + 1;

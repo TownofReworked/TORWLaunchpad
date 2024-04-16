@@ -1,5 +1,4 @@
 using HarmonyLib;
-using Il2CppSystem;
 using LaunchpadReloaded.API.Hud;
 using LaunchpadReloaded.API.Roles;
 using LaunchpadReloaded.Components;
@@ -7,7 +6,6 @@ using LaunchpadReloaded.Features;
 using LaunchpadReloaded.Features.Managers;
 using LaunchpadReloaded.Networking;
 using LaunchpadReloaded.Roles;
-using LaunchpadReloaded.Utilities;
 using Reactor.Networking.Rpc;
 using UnityEngine;
 
@@ -42,7 +40,7 @@ public static class PlayerControlPatches
             Rpc<CustomCheckMurderRpc>.Instance.Handle(__instance, target);
             return false;
         }
-        
+
         Rpc<CustomCheckMurderRpc>.Instance.SendTo(__instance, AmongUsClient.Instance.HostId, target);
         return false;
     }
@@ -54,7 +52,7 @@ public static class PlayerControlPatches
     [HarmonyPrefix, HarmonyPatch(nameof(PlayerControl.CmdCheckColor))]
     public static bool CheckColorPatch(PlayerControl __instance, [HarmonyArgument(0)] byte bodyColor)
     {
-        Rpc<CustomCheckColorRpc>.Instance.SendTo(__instance, AmongUsClient.Instance.HostId, 
+        Rpc<CustomCheckColorRpc>.Instance.SendTo(__instance, AmongUsClient.Instance.HostId,
             new CustomCheckColorRpc.Data(bodyColor, (byte)GradientManager.LocalGradientId));
         return false;
     }
@@ -68,11 +66,6 @@ public static class PlayerControlPatches
         if (MeetingHud.Instance || __instance.Data is null)
         {
             return;
-        }
-
-        if (__instance.IsRevived())
-        {
-            __instance.cosmetics.SetOutline(true, new Nullable<Color>(LaunchpadPalette.MedicColor));
         }
 
         if (__instance.AmOwner)

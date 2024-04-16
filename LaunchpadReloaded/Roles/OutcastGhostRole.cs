@@ -1,5 +1,6 @@
 ﻿using LaunchpadReloaded.API.Roles;
 using LaunchpadReloaded.Features;
+using LaunchpadReloaded.Features.Translations;
 using Reactor.Utilities.Attributes;
 using System;
 using System.Text;
@@ -9,10 +10,10 @@ namespace LaunchpadReloaded.Roles;
 [RegisterInIl2Cpp]
 public class OutcastGhostRole(IntPtr ptr) : CrewmateGhostRole(ptr), ICustomRole
 {
-    public string RoleName => "Outcast Ghost";
+    public TranslationStringNames RoleName => TranslationStringNames.OutcastGhostName;
     public ushort RoleId => (ushort)LaunchpadRoles.OutcastGhost;
-    public string RoleDescription => string.Empty;
-    public string RoleLongDescription => string.Empty;
+    public TranslationStringNames RoleDescription => (TranslationStringNames)(-1);
+    public TranslationStringNames RoleLongDescription => (TranslationStringNames)(-1);
     public Color RoleColor => Color.gray;
     public RoleTeamTypes Team => RoleTeamTypes.Crewmate;
     public bool IsOutcast => true;

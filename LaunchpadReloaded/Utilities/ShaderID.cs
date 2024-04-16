@@ -14,5 +14,5 @@ public static class ShaderID
     public static readonly int AddColor = Shader.PropertyToID("_AddColor");
     public static readonly int Flip = Shader.PropertyToID("_Flip");
     public static readonly int Color = Shader.PropertyToID("_Color");
-
+    public static readonly int VisorColor = Shader.PropertyToID("_VisorColor");
 }

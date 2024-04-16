@@ -1,6 +1,7 @@
 ﻿using LaunchpadReloaded.API.Hud;
 using LaunchpadReloaded.Features;
 using LaunchpadReloaded.Features.Managers;
+using LaunchpadReloaded.Features.Translations;
 using LaunchpadReloaded.Networking;
 using LaunchpadReloaded.Roles;
 using UnityEngine;
@@ -8,7 +9,7 @@ using UnityEngine;
 namespace LaunchpadReloaded.Buttons;
 public class HackButton : CustomActionButton
 {
-    public override string Name => "HACK";
+    public override TranslationStringNames Name => TranslationStringNames.HackerHack;
     public override float Cooldown => (int)HackerRole.HackCooldown.Value;
     public override float EffectDuration => 0;
     public override int MaxUses => (int)HackerRole.HackUses.Value;

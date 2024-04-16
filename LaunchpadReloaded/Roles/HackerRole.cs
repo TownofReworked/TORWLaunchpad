@@ -1,8 +1,9 @@
-using System;
 using LaunchpadReloaded.API.GameOptions;
 using LaunchpadReloaded.API.Roles;
 using LaunchpadReloaded.Features;
+using LaunchpadReloaded.Features.Translations;
 using Reactor.Utilities.Attributes;
+using System;
 using UnityEngine;
 
 namespace LaunchpadReloaded.Roles;
@@ -10,10 +11,10 @@ namespace LaunchpadReloaded.Roles;
 [RegisterInIl2Cpp]
 public class HackerRole(IntPtr ptr) : ImpostorRole(ptr), ICustomRole
 {
-    public string RoleName => "Hacker";
+    public TranslationStringNames RoleName => TranslationStringNames.HackerRoleName;
     public ushort RoleId => (ushort)LaunchpadRoles.Hacker;
-    public string RoleDescription => "Hack meetings and sabotage the crewmates";
-    public string RoleLongDescription => "Hack crewmates and make them unable to do tasks\nAnd view the admin map from anywhere!";
+    public TranslationStringNames RoleDescription => TranslationStringNames.HackerShortDesc;
+    public TranslationStringNames RoleLongDescription => TranslationStringNames.HackerLongDesc;
     public Color RoleColor => LaunchpadPalette.HackerColor;
     public RoleTeamTypes Team => RoleTeamTypes.Impostor;
     public override bool IsDead => false;
@@ -27,37 +28,38 @@ public class HackerRole(IntPtr ptr) : ImpostorRole(ptr), ICustomRole
 
     public void CreateOptions()
     {
-        HackCooldown = new CustomNumberOption("Hack Cooldown",
+        HackCooldown = new CustomNumberOption(TranslationStringNames.HackerHackCooldown,
             defaultValue: 60,
             10, 300,
             increment: 10,
             suffixType: NumberSuffixes.Seconds,
             role: typeof(HackerRole));
 
-        HackUses = new CustomNumberOption("Hacks Per Game",
+        HackUses = new CustomNumberOption(TranslationStringNames.HackerHackUses,
             defaultValue: 2,
             1, 8,
             increment: 1,
             suffixType: NumberSuffixes.None,
             role: typeof(HackerRole));
 
-        MapCooldown = new CustomNumberOption("Map Cooldown",
+        MapCooldown = new CustomNumberOption(TranslationStringNames.HackerMapCooldown,
             defaultValue: 10,
             0, 40,
             increment: 3,
             suffixType: NumberSuffixes.Seconds,
             role: typeof(HackerRole));
 
-        MapDuration = new CustomNumberOption("Map Duration",
+        MapDuration = new CustomNumberOption(TranslationStringNames.HackerMapDuration,
             defaultValue: 3,
             1, 30,
             increment: 3,
             suffixType: NumberSuffixes.Seconds,
             role: typeof(HackerRole));
 
-        Group = new CustomOptionGroup($"{RoleColor.ToTextColor()}Hacker</color>",
+        Group = new CustomOptionGroup(RoleName,
             numberOpt: [HackCooldown, HackUses, MapCooldown, MapDuration],
             stringOpt: [],
             toggleOpt: [], role: typeof(HackerRole));
+        Group.SetColor(RoleColor);
     }
 }

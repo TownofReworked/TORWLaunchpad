@@ -1,5 +1,6 @@
 ﻿using LaunchpadReloaded.API.Hud;
 using LaunchpadReloaded.Features;
+using LaunchpadReloaded.Features.Translations;
 using LaunchpadReloaded.Roles;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ namespace LaunchpadReloaded.Buttons;
 
 public class InstinctButton : CustomActionButton
 {
-    public override string Name => "INSTINCT";
+    public override TranslationStringNames Name => TranslationStringNames.DetectiveInstinct;
     public override float Cooldown => DetectiveRole.InstinctCooldown.Value;
     public override float EffectDuration => DetectiveRole.InstinctDuration.Value;
     public override int MaxUses => (int)DetectiveRole.InstinctUses.Value;

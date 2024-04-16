@@ -1,6 +1,7 @@
 ﻿using AmongUs.GameOptions;
 using BepInEx.Configuration;
 using LaunchpadReloaded.Features;
+using LaunchpadReloaded.Features.Translations;
 using LaunchpadReloaded.Utilities;
 using System.Text;
 using UnityEngine;
@@ -9,13 +10,13 @@ namespace LaunchpadReloaded.API.Roles;
 
 public interface ICustomRole
 {
-    string RoleName { get; }
+    TranslationStringNames RoleName { get; }
 
     ushort RoleId { get; }
 
-    string RoleDescription { get; }
+    TranslationStringNames RoleDescription { get; }
 
-    string RoleLongDescription { get; }
+    TranslationStringNames RoleLongDescription { get; }
 
     Color RoleColor { get; }
 

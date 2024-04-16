@@ -33,9 +33,8 @@ public static class JesterPatches
     [HarmonyPostfix, HarmonyPatch(typeof(ExileController), nameof(ExileController.Begin))]
     public static void Begin(ExileController __instance)
     {
-        if (__instance.exiled?.Role is ShapeshifterRole)
+        if (!GameManager.Instance.LogicOptions.GetConfirmImpostor())
         {
-            __instance.completeString = $"{__instance.exiled.PlayerName} was The Shapeshifter";
             return;
         }
 

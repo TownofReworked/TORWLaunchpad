@@ -6,7 +6,9 @@ using LaunchpadReloaded.API.Hud;
 using LaunchpadReloaded.API.Roles;
 using LaunchpadReloaded.Features;
 using LaunchpadReloaded.Features.Colors;
+using LaunchpadReloaded.Features.Translations;
 using Reactor;
+using Reactor.Localization;
 using Reactor.Networking;
 using Reactor.Networking.Attributes;
 using Reactor.Patches;
@@ -29,8 +31,11 @@ public partial class LaunchpadReloadedPlugin : BasePlugin
     public override void Load()
     {
         Instance = this;
+
+        new LaunchpadTranslator();
+        LocalizationManager.Register(new LpTranslationProvider());
+
         Harmony.PatchAll();
-        
 
         RegisterColors();
 
@@ -40,7 +45,7 @@ public partial class LaunchpadReloadedPlugin : BasePlugin
 
         LaunchpadGameOptions.Initialize();
         LaunchpadSettings.Initialize();
-        
+
         ReactorVersionShower.TextUpdated += VersionShower;
 
         Config.Save();
@@ -72,6 +77,6 @@ public partial class LaunchpadReloadedPlugin : BasePlugin
 
         Palette.PlayerColors = Palette.PlayerColors.ToArray().AddRangeToArray(colors.Select(x => x.MainColor).ToArray());
         Palette.ShadowColors = Palette.ShadowColors.ToArray().AddRangeToArray(colors.Select(x => x.ShadowColor).ToArray());
-        Palette.ColorNames = Palette.ColorNames.ToArray().AddRangeToArray(colors.Select(x => x.Name).ToArray());
+        Palette.ColorNames = Palette.ColorNames.ToArray().AddRangeToArray(colors.Select(x => (StringNames)x.Name).ToArray());
     }
 }

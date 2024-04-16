@@ -1,6 +1,7 @@
-﻿using System;
-using BepInEx.Configuration;
+﻿using BepInEx.Configuration;
+using LaunchpadReloaded.Features.Translations;
 using Reactor.Utilities;
+using System;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -12,14 +13,14 @@ public class CustomToggleOption : AbstractGameOption
     public bool Default { get; }
     public ConfigEntry<bool> Config { get; }
     public Action<bool> ChangedEvent { get; init; }
-    public CustomToggleOption(string title, bool defaultValue, Type role = null, bool save = true) : base(title, role, save)
+    public CustomToggleOption(TranslationStringNames title, bool defaultValue, Type role = null, bool save = true) : base(title, role, save)
     {
         Default = defaultValue;
         if (Save)
         {
             try
             {
-                Config = LaunchpadReloadedPlugin.Instance.Config.Bind("Toggle Options", title, defaultValue);
+                Config = LaunchpadReloadedPlugin.Instance.Config.Bind("Toggle Options", LaunchpadTranslator.Instance.GetString(SupportedLangs.English, Title), defaultValue);
             }
             catch (Exception e)
             {
@@ -67,9 +68,8 @@ public class CustomToggleOption : AbstractGameOption
     public ToggleOption CreateToggleOption(ToggleOption original, Transform container)
     {
         var toggleOption = Object.Instantiate(original, container);
-        
-        toggleOption.name = Title;
-        toggleOption.Title = StringName;
+
+        toggleOption.Title = (StringNames)Title;
         toggleOption.CheckMark.enabled = Value;
         toggleOption.OnValueChanged = (Il2CppSystem.Action<OptionBehaviour>)ValueChanged;
         toggleOption.OnEnable();

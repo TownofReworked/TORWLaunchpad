@@ -1,5 +1,6 @@
 ﻿using LaunchpadReloaded.API.Hud;
 using LaunchpadReloaded.Features;
+using LaunchpadReloaded.Features.Translations;
 using LaunchpadReloaded.Roles;
 using LaunchpadReloaded.Utilities;
 using Reactor.Utilities;
@@ -10,18 +11,18 @@ namespace LaunchpadReloaded.Buttons;
 
 public class ZoomButton : CustomActionButton
 {
-    public override string Name => "ZOOM";
-    
+    public override TranslationStringNames Name => TranslationStringNames.CaptainZoom;
+
     public override float Cooldown => CaptainRole.ZoomCooldown.Value;
-    
+
     public override float EffectDuration => CaptainRole.ZoomDuration.Value;
-    
+
     public override int MaxUses => 0;
-    
+
     public override LoadableAsset<Sprite> Sprite => LaunchpadAssets.ZoomButton;
-    
+
     public static bool IsZoom { get; private set; }
-    
+
     public override bool Enabled(RoleBehaviour role)
     {
         return role is CaptainRole;

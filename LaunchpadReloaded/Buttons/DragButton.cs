@@ -1,6 +1,7 @@
 ﻿using LaunchpadReloaded.API.Hud;
 using LaunchpadReloaded.Features;
 using LaunchpadReloaded.Features.Managers;
+using LaunchpadReloaded.Features.Translations;
 using LaunchpadReloaded.Networking;
 using LaunchpadReloaded.Roles;
 using UnityEngine;
@@ -9,12 +10,12 @@ namespace LaunchpadReloaded.Buttons;
 
 public class DragButton : CustomActionButton
 {
-    public override string Name => "DRAG";
+    public override TranslationStringNames Name => TranslationStringNames.BodyDrag;
     public override float Cooldown => 0;
     public override float EffectDuration => 0;
     public override int MaxUses => 0;
     public override LoadableAsset<Sprite> Sprite => LaunchpadAssets.DragButton;
-    
+
     public override bool Enabled(RoleBehaviour role)
     {
         return role is JanitorRole || (MedicRole.DragBodies.Value && role is MedicRole);
@@ -31,7 +32,7 @@ public class DragButton : CustomActionButton
         {
             return;
         }
-        
+
         // can probably be improved but whatever
         HudManager.Instance.KillButton.SetDisabled();
         HudManager.Instance.ReportButton.SetDisabled();
@@ -44,13 +45,13 @@ public class DragButton : CustomActionButton
 
     public void SetDrag()
     {
-        OverrideName("DRAG");
+        OverrideName(TranslationStringNames.BodyDrag);
         OverrideSprite(Sprite.LoadAsset());
     }
 
     public void SetDrop()
     {
-        OverrideName("DROP");
+        OverrideName(TranslationStringNames.BodyDrop);
         OverrideSprite(LaunchpadAssets.DropButton.LoadAsset());
     }
 

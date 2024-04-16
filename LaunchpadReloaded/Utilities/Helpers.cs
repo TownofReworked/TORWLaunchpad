@@ -1,8 +1,9 @@
-﻿using System.Globalization;
+﻿using LaunchpadReloaded.API.Roles;
+using LaunchpadReloaded.Features.Managers;
+using LaunchpadReloaded.Features.Translations;
+using System.Globalization;
 using System.Linq;
 using System.Text;
-using LaunchpadReloaded.API.Roles;
-using LaunchpadReloaded.Features.Managers;
 using TMPro;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -13,12 +14,12 @@ namespace LaunchpadReloaded.Utilities;
 public static class Helpers
 {
     public static readonly Random Random = new();
-    
+
     public static bool ShouldCancelClick()
     {
-        return DragManager.Instance is not null && DragManager.Instance.IsDragging(PlayerControl.LocalPlayer.PlayerId);
+        return (DragManager.Instance is not null && DragManager.Instance.IsDragging(PlayerControl.LocalPlayer.PlayerId));
     }
-    
+
     public static string FirstLetterToUpper(string str)
     {
         return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str.ToLower());
@@ -59,7 +60,7 @@ public static class Helpers
     public static string RandomString(int length, string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
     {
         return new string(Enumerable.Repeat(chars, length)
-            .Select(s => s[UnityEngine.Random.RandomRangeInt(0,s.Length)]).ToArray());
+            .Select(s => s[UnityEngine.Random.RandomRangeInt(0, s.Length)]).ToArray());
     }
 
     public static string GetSuffix(NumberSuffixes suffix)
@@ -90,9 +91,14 @@ public static class Helpers
     public static StringBuilder CreateForRole(ICustomRole role)
     {
         var taskStringBuilder = new StringBuilder();
-        taskStringBuilder.AppendLine($"{role.RoleColor.ToTextColor()}You are a <b>{role.RoleName}.</b></color>");
-        taskStringBuilder.Append("<size=70%>");
-        taskStringBuilder.AppendLine($"{role.RoleLongDescription}");
+        taskStringBuilder.Append($"{role.RoleColor.ToTextColor()}");
+        taskStringBuilder.AppendLine(TranslationController.Instance.GetString((StringNames)TranslationStringNames.RoleTabTitle, new Il2CppSystem.Object[]
+        {
+            TranslationController.Instance.GetString((StringNames)role.RoleName)
+        }));
+
+        taskStringBuilder.Append("</color><size=70%>");
+        taskStringBuilder.AppendLine($"{LaunchpadTranslator.Instance.GetLocaleString(role.RoleLongDescription)}");
         return taskStringBuilder;
     }
 }

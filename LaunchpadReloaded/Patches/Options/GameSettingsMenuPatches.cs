@@ -1,9 +1,9 @@
-using System.Collections.Generic;
-using System.Linq;
 using HarmonyLib;
 using LaunchpadReloaded.API.GameModes;
 using LaunchpadReloaded.API.GameOptions;
 using Reactor.Utilities;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -36,29 +36,29 @@ public static class GameSettingsMenuPatches
         {
             if (GameManager.Instance.IsNormal())
             {
-                group.Header = CustomOptionsTab.CreateHeader(toggleOpt, container, group.Title);
+                group.Header = CustomOptionsTab.CreateHeader(toggleOpt, container, TranslationController.Instance.GetString((StringNames)group.Title));
                 CreateOptionsFor(__instance, toggleOpt, numberOpt, stringOpt, container,
                     group.CustomToggleOptions, group.CustomNumberOptions, group.CustomStringOptions);
                 continue;
             }
-            
-            if (!group.Options.Any(x=>x.ShowInHideNSeek))
+
+            if (!group.Options.Any(x => x.ShowInHideNSeek))
             {
                 continue;
             }
-           
-            group.Header = CustomOptionsTab.CreateHeader(toggleOpt, container, group.Title);
+
+            group.Header = CustomOptionsTab.CreateHeader(toggleOpt, container, TranslationController.Instance.GetString((StringNames)group.Title));
             __instance.AllHideAndSeekItems = __instance.AllHideAndSeekItems.Append(group.Header.transform).ToArray();
-         
+
             CreateOptionsFor(__instance, toggleOpt, numberOpt, stringOpt, container,
                 group.CustomToggleOptions, group.CustomNumberOptions, group.CustomStringOptions);
         }
-        
+
         CreateOptionsFor(__instance, toggleOpt, numberOpt, stringOpt, container,
             CustomOptionsManager.CustomToggleOptions.Where(option => option.Group == null),
             CustomOptionsManager.CustomNumberOptions.Where(option => option.Group == null),
             CustomOptionsManager.CustomStringOptions.Where(option => option.Group == null));
-        
+
         if (!numberOpt || !toggleOpt || !stringOpt)
         {
             Logger<LaunchpadReloadedPlugin>.Error("OPTION PREFABS MISSING");
@@ -100,7 +100,7 @@ public static class GameSettingsMenuPatches
             }
 
             ToggleOption toggleOption;
-            
+
             if (GameManager.Instance.IsNormal())
             {
                 toggleOption = customToggleOption.CreateToggleOption(togglePrefab, container);
@@ -112,10 +112,10 @@ public static class GameSettingsMenuPatches
             {
                 continue;
             }
-            
+
             toggleOption = customToggleOption.CreateToggleOption(togglePrefab, container);
             __instance.AllHideAndSeekItems = __instance.AllHideAndSeekItems.AddItem(toggleOption.transform).ToArray();
-            
+
         }
 
         foreach (var customNumberOption in numbers)
@@ -124,9 +124,9 @@ public static class GameSettingsMenuPatches
             {
                 continue;
             }
-            
+
             NumberOption numberOption;
-            
+
             if (GameManager.Instance.IsNormal())
             {
                 numberOption = customNumberOption.CreateNumberOption(numberPrefab, container);
@@ -138,7 +138,7 @@ public static class GameSettingsMenuPatches
             {
                 continue;
             }
-            
+
             numberOption = customNumberOption.CreateNumberOption(numberPrefab, container);
             __instance.AllHideAndSeekItems = __instance.AllHideAndSeekItems.AddItem(numberOption.transform).ToArray();
         }
@@ -151,7 +151,7 @@ public static class GameSettingsMenuPatches
             }
 
             StringOption stringOption;
-            
+
             if (GameManager.Instance.IsNormal())
             {
                 stringOption = customStringOption.CreateStringOption(stringPrefab, container);
@@ -163,7 +163,7 @@ public static class GameSettingsMenuPatches
             {
                 continue;
             }
-            
+
             stringOption = customStringOption.CreateStringOption(stringPrefab, container);
             __instance.AllHideAndSeekItems = __instance.AllHideAndSeekItems.AddItem(stringOption.transform).ToArray();
         }

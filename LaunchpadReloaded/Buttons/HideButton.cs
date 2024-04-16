@@ -2,6 +2,7 @@
 using LaunchpadReloaded.Components;
 using LaunchpadReloaded.Features;
 using LaunchpadReloaded.Features.Managers;
+using LaunchpadReloaded.Features.Translations;
 using LaunchpadReloaded.Networking;
 using LaunchpadReloaded.Roles;
 using UnityEngine;
@@ -10,7 +11,7 @@ namespace LaunchpadReloaded.Buttons;
 
 public class HideButton : CustomActionButton
 {
-    public override string Name => "HIDE";
+    public override TranslationStringNames Name => TranslationStringNames.JanitorHide;
     public override float Cooldown => 5;
     public override float EffectDuration => 0;
     public override int MaxUses => 3;

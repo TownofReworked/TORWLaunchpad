@@ -17,6 +17,8 @@
       <None Remove="Resources\assets-win-x86.bundle" />
       <None Remove="Resources\Footstep.png" />
       <None Remove="Resources\Instinct.png" />
+      <None Remove="Resources\Translations\Brazilian.json" />
+      <None Remove="Resources\Translations\English.json" />
     </ItemGroup>
     
     <ItemGroup>
@@ -45,6 +47,8 @@
       <EmbeddedResource Include="Resources\Scanner.png" />
       <EmbeddedResource Include="Resources\Shoot.png" />
       <EmbeddedResource Include="Resources\Track.png" />
+      <EmbeddedResource Include="Resources\Translations\Brazilian.json" />
+      <EmbeddedResource Include="Resources\Translations\English.json" />
     </ItemGroup>
     
 

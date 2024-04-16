@@ -1,8 +1,9 @@
-﻿using System;
-using LaunchpadReloaded.API.GameOptions;
+﻿using LaunchpadReloaded.API.GameOptions;
 using LaunchpadReloaded.API.Roles;
 using LaunchpadReloaded.Features;
+using LaunchpadReloaded.Features.Translations;
 using Reactor.Utilities.Attributes;
+using System;
 using UnityEngine;
 
 namespace LaunchpadReloaded.Roles;
@@ -10,10 +11,10 @@ namespace LaunchpadReloaded.Roles;
 [RegisterInIl2Cpp]
 public class MedicRole(IntPtr ptr) : CrewmateRole(ptr), ICustomRole
 {
-    public string RoleName => "Medic";
+    public TranslationStringNames RoleName => TranslationStringNames.MedicRoleName;
     public ushort RoleId => (ushort)LaunchpadRoles.Medic;
-    public string RoleDescription => "Help the crewmates by reviving dead players.";
-    public string RoleLongDescription => "Use your revive ability to bring dead bodies\nback to life!";
+    public TranslationStringNames RoleDescription => TranslationStringNames.MedicShortDesc;
+    public TranslationStringNames RoleLongDescription => TranslationStringNames.MedicLongDesc;
     public Color RoleColor => LaunchpadPalette.MedicColor;
     public RoleTeamTypes Team => RoleTeamTypes.Crewmate;
     public override bool IsDead => false;
@@ -27,32 +28,33 @@ public class MedicRole(IntPtr ptr) : CrewmateRole(ptr), ICustomRole
 
     public void CreateOptions()
     {
-        MaxRevives = new CustomNumberOption("Max Revives",
+        MaxRevives = new CustomNumberOption(TranslationStringNames.MedicMaxRevives,
             defaultValue: 2,
             1, 9,
             increment: 1,
             suffixType: NumberSuffixes.None,
             role: typeof(MedicRole));
 
-        ReviveCooldown = new CustomNumberOption("Revive Cooldown",
+        ReviveCooldown = new CustomNumberOption(TranslationStringNames.MedicReviveCooldown,
             defaultValue: 20,
             1, 50,
             increment: 2,
             suffixType: NumberSuffixes.Seconds,
             role: typeof(MedicRole));
 
-        OnlyAllowInMedbay = new CustomToggleOption("Only Allow Reviving in MedBay/Laboratory",
+        OnlyAllowInMedbay = new CustomToggleOption(TranslationStringNames.MedicOnlyAllowReviveMedbay,
             defaultValue: false,
             role: typeof(MedicRole));
 
-        DragBodies = new CustomToggleOption("Can Drag Bodies",
+        DragBodies = new CustomToggleOption(TranslationStringNames.MedicDragBodies,
             defaultValue: false,
             role: typeof(MedicRole));
 
-        Group = new CustomOptionGroup($"{RoleColor.ToTextColor()}Medic</color>",
+        Group = new CustomOptionGroup(RoleName,
             numberOpt: [MaxRevives, ReviveCooldown],
             stringOpt: [],
             toggleOpt: [OnlyAllowInMedbay, DragBodies],
             role: typeof(MedicRole));
+        Group.SetColor(RoleColor);
     }
 }

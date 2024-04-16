@@ -1,6 +1,7 @@
 ﻿using LaunchpadReloaded.API.GameOptions;
 using LaunchpadReloaded.API.Roles;
 using LaunchpadReloaded.Features;
+using LaunchpadReloaded.Features.Translations;
 using Reactor.Utilities.Attributes;
 using System;
 using UnityEngine;
@@ -9,13 +10,13 @@ namespace LaunchpadReloaded.Roles;
 [RegisterInIl2Cpp]
 public class SheriffRole(IntPtr ptr) : CrewmateRole(ptr), ICustomRole
 {
-    public string RoleName => "Sheriff";
+    public TranslationStringNames RoleName => TranslationStringNames.SheriffRoleName;
 
     public ushort RoleId => (ushort)LaunchpadRoles.Sheriff;
 
-    public string RoleDescription => "Take your chance by shooting a player.";
+    public TranslationStringNames RoleDescription => TranslationStringNames.SheriffShortDesc;
 
-    public string RoleLongDescription => $"You can shoot players, if you shoot an {Palette.ImpostorRed.ToTextColor()}Impostor</color> you will kill him\nbut if you shoot a {Palette.CrewmateBlue.ToTextColor()}Crewmate</color>, you will die with him.";
+    public TranslationStringNames RoleLongDescription => TranslationStringNames.SheriffLongDesc;
 
     public Color RoleColor => LaunchpadPalette.SheriffColor;
 
@@ -30,25 +31,26 @@ public class SheriffRole(IntPtr ptr) : CrewmateRole(ptr), ICustomRole
 
     public void CreateOptions()
     {
-        ShootCooldown = new CustomNumberOption("Shot Cooldown",
+        ShootCooldown = new CustomNumberOption(TranslationStringNames.SheriffShootCooldown,
             defaultValue: 45,
             0, 120,
             increment: 5,
             suffixType: NumberSuffixes.Seconds,
             role: typeof(SheriffRole));
 
-        Shots = new CustomNumberOption("Shots Per Game",
+        Shots = new CustomNumberOption(TranslationStringNames.SheriffShotsPerGame,
             defaultValue: 3,
             1, 10,
             increment: 1,
             suffixType: NumberSuffixes.None,
             role: typeof(SheriffRole));
 
-        ShouldCrewmateDie = new CustomToggleOption("Should Crewmate Die", false, typeof(SheriffRole));
+        ShouldCrewmateDie = new CustomToggleOption(TranslationStringNames.SheriffCrewmateDies, false, typeof(SheriffRole));
 
-        Group = new CustomOptionGroup($"{RoleColor.ToTextColor()}Sheriff</color>",
+        Group = new CustomOptionGroup(RoleName,
             numberOpt: [ShootCooldown, Shots],
             stringOpt: [],
             toggleOpt: [ShouldCrewmateDie], role: typeof(SheriffRole));
+        Group.SetColor(RoleColor);
     }
 }

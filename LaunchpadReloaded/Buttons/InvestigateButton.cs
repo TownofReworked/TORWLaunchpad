@@ -1,5 +1,6 @@
 ﻿using LaunchpadReloaded.API.Hud;
 using LaunchpadReloaded.Features;
+using LaunchpadReloaded.Features.Translations;
 using LaunchpadReloaded.Roles;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ namespace LaunchpadReloaded.Buttons;
 
 public class InvestigateButton : CustomActionButton
 {
-    public override string Name => "INVESTIGATE";
+    public override TranslationStringNames Name => TranslationStringNames.DetectiveInvestigate;
     public override float Cooldown => 1;
     public override float EffectDuration => 0;
     public override int MaxUses => 0;

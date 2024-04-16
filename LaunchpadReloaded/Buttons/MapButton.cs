@@ -1,12 +1,13 @@
 ﻿using LaunchpadReloaded.API.Hud;
 using LaunchpadReloaded.Features;
+using LaunchpadReloaded.Features.Translations;
 using LaunchpadReloaded.Roles;
 using UnityEngine;
 
 namespace LaunchpadReloaded.Buttons;
 public class MapButton : CustomActionButton
 {
-    public override string Name => "Map";
+    public override TranslationStringNames Name => TranslationStringNames.HackerMap;
     public override float Cooldown => (int)HackerRole.MapCooldown.Value;
     public override float EffectDuration => (int)HackerRole.MapDuration.Value;
     public override int MaxUses => 0;
@@ -19,7 +20,7 @@ public class MapButton : CustomActionButton
         ShowLivePlayerPosition = true,
         Mode = MapOptions.Modes.CountOverlay,
     };
-    
+
     public override bool Enabled(RoleBehaviour role) => role is HackerRole;
 
     protected override void OnClick()
