@@ -1,9 +1,11 @@
+using AmongUs.GameOptions;
 using LaunchpadReloaded.Components;
 using LaunchpadReloaded.Features;
 using LaunchpadReloaded.Modifiers;
 using LaunchpadReloaded.Options;
 using MiraAPI.GameOptions;
 using MiraAPI.Modifiers;
+using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using PowerTools;
 using Reactor.Utilities.Extensions;
@@ -59,6 +61,27 @@ public static class Extensions
         }
         analytics.MinigameClosed(data, taskType, realtimeSinceStartup, isComplete);
         self.StartCoroutine(self.CoDestroySelf());
+    }
+
+    public static int GetRoleChance(this RoleBehaviour role)
+    {
+        int chance = 0;
+
+        if (CustomRoleManager.GetCustomRoleBehaviour(role.Role, out var customRole))
+        {
+            chance = customRole!.GetChance()!.Value;
+        }
+        else if (role.Role == RoleTypes.ImpostorGhost || role.Role == RoleTypes.CrewmateGhost)
+        {
+            chance = 100;
+        }
+        else if (role.Role == RoleTypes.GuardianAngel)
+        {
+            IRoleOptionsCollection roleOptions = GameOptionsManager.Instance.currentHostOptions.RoleOptions;
+            chance = roleOptions.GetChancePerGame(role.Role);
+        }
+
+        return chance;
     }
 
     public static PlayerTagManager? GetTagManager(this PlayerControl player)

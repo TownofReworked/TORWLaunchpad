@@ -46,7 +46,7 @@ public class ShootButton : BaseLaunchpadButton<PlayerControl>
 
         if (Target.Data.Role.TeamType == RoleTeamTypes.Crewmate)
         {
-            PlayerControl.LocalPlayer.RpcCustomMurder(PlayerControl.LocalPlayer);
+            PlayerControl.LocalPlayer.RpcCustomMurder(PlayerControl.LocalPlayer, resetKillTimer: false, teleportMurderer: false, showKillAnim: false, playKillSound: true);
         }
 
         ResetTarget();

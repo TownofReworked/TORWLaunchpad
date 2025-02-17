@@ -1,6 +1,7 @@
 ﻿using AmongUs.GameOptions;
 using LaunchpadReloaded.Features;
 using LaunchpadReloaded.Patches.Reverse;
+using LaunchpadReloaded.Utilities;
 using MiraAPI.Roles;
 using Reactor.Utilities;
 using Reactor.Utilities.Attributes;
@@ -40,8 +41,6 @@ public sealed class RoleSelectionMinigame(nint ptr) : Minigame(ptr)
         transform.localPosition = new Vector3(0, 0, -505);
         StatusText.gameObject.SetActive(false);
 
-        var rng = new System.Random();
-
         var roles = RoleManager.Instance.AllRoles.Where((role) =>
         {
             var isDeadRole = role.IsDead;
@@ -74,8 +73,26 @@ public sealed class RoleSelectionMinigame(nint ptr) : Minigame(ptr)
             return isDeadRole && sameTeam;
         });
 
+        _availableRoles = new List<RoleBehaviour>();
 
-        _availableRoles = roles.OrderBy(_ => rng.Next()).Take(2).ToList();
+        var rand = new System.Random();
+        foreach (var role in roles.OrderBy(role => role.GetRoleChance()))
+        {
+            var randomNum = rand.Next(100);
+            var roleChance = role.GetRoleChance();
+
+            if (randomNum < roleChance)
+            {
+                _availableRoles.Add(role);
+
+                if (_availableRoles.Count >= 2)
+                {
+                    break;
+                }
+            }
+        }
+
+
     }
 
     public void FixedClose(bool closedDueToMeeting = false)
@@ -116,6 +133,12 @@ public sealed class RoleSelectionMinigame(nint ptr) : Minigame(ptr)
 
     private void Open()
     {
+        if (_availableRoles.Count <= 1)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         HudManager.Instance.StartCoroutine(HudManager.Instance.CoFadeFullScreen(Color.clear, _bgColor, 0.2f, false));
 
         StatusText.gameObject.SetActive(true);
