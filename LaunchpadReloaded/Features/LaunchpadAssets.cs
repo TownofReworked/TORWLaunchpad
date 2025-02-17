@@ -94,6 +94,7 @@ public static class LaunchpadAssets
 
     // Other
     public static readonly LoadableAsset<GameObject> DetectiveGame = new LoadableBundleAsset<GameObject>("JournalMinigame", Bundle);
+    public static readonly LoadableAsset<GameObject> GhostRoleGame = new LoadableBundleAsset<GameObject>("SelectGhostRoleGame", Bundle);
     public static readonly LoadableAsset<GameObject> RoleMinigame = new LoadableBundleAsset<GameObject>("RoleGuessingMinigame", Bundle);
     public static readonly LoadableAsset<GameObject> ReaperDisplay = new LoadableBundleAsset<GameObject>("ReaperSoulDisplay", Bundle);
     public static readonly LoadableAsset<GameObject> Notepad = new LoadableBundleAsset<GameObject>("Notepad", Bundle);

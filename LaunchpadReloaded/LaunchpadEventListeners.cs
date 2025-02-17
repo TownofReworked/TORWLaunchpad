@@ -8,10 +8,12 @@ using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Map;
 using MiraAPI.Events.Vanilla.Meeting;
+using MiraAPI.Events.Vanilla.Player;
 using MiraAPI.Events.Vanilla.Usables;
 using MiraAPI.Hud;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
+using Reactor.Utilities;
 
 namespace LaunchpadReloaded;
 
@@ -30,8 +32,15 @@ public static class LaunchpadEventListeners
             }
         });
 
-        MiraEventManager.RegisterEventHandler<SetRoleEvent>(SetRoleEvent);
+        MiraEventManager.RegisterEventHandler<PlayerDeathEvent>((@event) =>
+        {
+            if (@event.Player.AmOwner)
+            {
+                Coroutines.Start(RoleSelectionMinigame.CoOpen());
+            }
+        });
 
+        MiraEventManager.RegisterEventHandler<SetRoleEvent>(SetRoleEvent);
         MiraEventManager.RegisterEventHandler<PlayerOpenSabotageEvent>(@event =>
         {
             if (PlayerControl.LocalPlayer.HasModifier<DragBodyModifier>())

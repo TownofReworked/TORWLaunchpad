@@ -54,6 +54,11 @@ public class RevivedModifier : BaseModifier
 
         if (Player.AmOwner)
         {
+            if (Minigame.Instance)
+            {
+                Minigame.Instance.Close();
+            }
+
             HudManager.Instance.MapButton.gameObject.SetActive(true);
             HudManager.Instance.ReportButton.gameObject.SetActive(true);
             HudManager.Instance.UseButton.gameObject.SetActive(true);
