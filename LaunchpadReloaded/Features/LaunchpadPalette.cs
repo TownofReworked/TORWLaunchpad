@@ -12,6 +12,8 @@ public static class LaunchpadPalette
     public static readonly Color CoronerColor = new Color32(167, 225, 242, 255);
     public static readonly Color DetectiveColor = new Color32(67, 166, 198, 255);
     public static readonly Color GamblerColor = new Color32(207, 181, 59, 255);
+    public static readonly Color IlluminatorRole = new Color32(250, 227, 155, 255);
+    public static readonly Color WardenRole = new Color32(54, 122, 200, 255);
 
     // Impostors
     public static readonly Color JanitorColor = Color.yellow;

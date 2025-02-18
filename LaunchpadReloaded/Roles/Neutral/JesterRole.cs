@@ -2,12 +2,15 @@ using AmongUs.GameOptions;
 using Il2CppSystem.Text;
 using LaunchpadReloaded.Features;
 using LaunchpadReloaded.Options.Roles.Neutral;
+using LaunchpadReloaded.Roles.Afterlife.Outcast;
 using MiraAPI.GameOptions;
+using MiraAPI.PluginLoading;
 using MiraAPI.Roles;
 using UnityEngine;
 
 namespace LaunchpadReloaded.Roles.Neutral;
 
+[MiraIgnore]
 public class JesterRole(System.IntPtr ptr) : BaseOutcastRole(ptr)
 {
     public override string RoleName => "Jester";

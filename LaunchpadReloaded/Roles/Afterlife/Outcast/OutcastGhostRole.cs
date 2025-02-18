@@ -1,10 +1,13 @@
-﻿using MiraAPI.Roles;
+﻿using LaunchpadReloaded.Roles.Neutral;
+using MiraAPI.PluginLoading;
+using MiraAPI.Roles;
 using System;
 using UnityEngine;
 
-namespace LaunchpadReloaded.Roles.Neutral;
+namespace LaunchpadReloaded.Roles.Afterlife.Outcast;
 
-public class OutcastGhostRole(IntPtr ptr) : BaseOutcastRole(ptr)
+[MiraIgnore]
+public class OutcastGhostRole(IntPtr ptr) : BaseOutcastRole(ptr), IAfterlifeRole
 {
     public override string RoleName => "Outcast Ghost";
     public override string RoleDescription => string.Empty;

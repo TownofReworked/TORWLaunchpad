@@ -1,6 +1,7 @@
 ﻿using AmongUs.GameOptions;
 using LaunchpadReloaded.Features;
 using LaunchpadReloaded.Utilities;
+using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
 using Reactor.Utilities;
 using Reactor.Utilities.Attributes;
@@ -8,7 +9,6 @@ using Reactor.Utilities.Extensions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using MiraAPI.Patches.Stubs;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -76,7 +76,9 @@ public sealed class RoleSelectionMinigame(nint ptr) : Minigame(ptr)
         _availableRoles = new List<RoleBehaviour>();
 
         var rand = new System.Random();
-        foreach (var role in roles.OrderBy(role => role.GetRoleChance()))
+        var shuffledList = roles.OrderBy(_ => rand.Next()).ToList();
+
+        foreach (var role in shuffledList.OrderBy(role => role.GetRoleChance()))
         {
             var randomNum = rand.Next(100);
             var roleChance = role.GetRoleChance();

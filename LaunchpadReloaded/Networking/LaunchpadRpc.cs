@@ -14,5 +14,6 @@ public enum LaunchpadRpc : uint
     DigVent,
     SealVent,
     ReaperCollect,
-    FreezeBody
+    FreezeBody,
+    PlaceLantern
 }

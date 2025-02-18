@@ -1,15 +1,18 @@
 using AmongUs.GameOptions;
+using Il2CppInterop.Runtime.Attributes;
 using LaunchpadReloaded.Features;
 using LaunchpadReloaded.Options.Roles.Neutral;
+using LaunchpadReloaded.Roles.Afterlife.Outcast;
 using MiraAPI.GameOptions;
+using MiraAPI.PluginLoading;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using System.Text;
-using Il2CppInterop.Runtime.Attributes;
 using UnityEngine;
 
 namespace LaunchpadReloaded.Roles.Neutral;
 
+[MiraIgnore]
 public class ReaperRole(System.IntPtr ptr) : BaseOutcastRole(ptr)
 {
     public override string RoleName => "Reaper";

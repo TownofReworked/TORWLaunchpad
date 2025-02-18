@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using LaunchpadReloaded.Components;
 using LaunchpadReloaded.Options;
+using LaunchpadReloaded.Roles.Crewmate;
 using LaunchpadReloaded.Utilities;
 using MiraAPI.GameOptions;
 using UnityEngine;
@@ -10,6 +11,18 @@ namespace LaunchpadReloaded.Patches.Generic;
 [HarmonyPatch(typeof(ShipStatus))]
 public static class ShipStatusPatch
 {
+    [HarmonyPrefix]
+    [HarmonyPatch(nameof(ShipStatus.CalculateLightRadius))]
+    public static bool LightRadiusPatch(ShipStatus __instance, NetworkedPlayerInfo player, ref float __result)
+    {
+        if (player != null && player.Role is IlluminatorRole)
+        {
+            __result = 2.5f;
+            return false;
+        }
+
+        return true;
+    }
     /// <summary>
     /// Create nodes on map load.
     /// </summary>
