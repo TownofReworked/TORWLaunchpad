@@ -1,10 +1,11 @@
-﻿using MiraAPI.Roles;
-using System;
+﻿using System;
+using LaunchpadReloaded.Roles.Neutral;
+using MiraAPI.Roles;
 using UnityEngine;
 
-namespace LaunchpadReloaded.Roles.Neutral;
+namespace LaunchpadReloaded.Roles.Afterlife.Outcast;
 
-public class OutcastGhostRole(IntPtr ptr) : RoleBehaviour(ptr), IOutcastRole
+public class OutcastGhostRole(IntPtr ptr) : RoleBehaviour(ptr), IOutcastRole, IAfterlifeRole
 {
     public string RoleName => "Outcast Ghost";
     public string RoleDescription => string.Empty;

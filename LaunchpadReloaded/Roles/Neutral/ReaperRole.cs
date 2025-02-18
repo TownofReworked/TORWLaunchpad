@@ -6,6 +6,7 @@ using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using System.Text;
 using Il2CppInterop.Runtime.Attributes;
+using LaunchpadReloaded.Roles.Afterlife.Outcast;
 using UnityEngine;
 
 namespace LaunchpadReloaded.Roles.Neutral;

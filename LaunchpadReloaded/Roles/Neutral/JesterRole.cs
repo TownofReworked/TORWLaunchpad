@@ -2,6 +2,7 @@ using AmongUs.GameOptions;
 using Il2CppSystem.Text;
 using LaunchpadReloaded.Features;
 using LaunchpadReloaded.Options.Roles.Neutral;
+using LaunchpadReloaded.Roles.Afterlife.Outcast;
 using MiraAPI.GameOptions;
 using MiraAPI.Roles;
 using UnityEngine;
