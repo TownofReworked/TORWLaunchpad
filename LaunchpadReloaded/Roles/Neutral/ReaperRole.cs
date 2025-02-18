@@ -10,18 +10,17 @@ using UnityEngine;
 
 namespace LaunchpadReloaded.Roles.Neutral;
 
-public class ReaperRole(System.IntPtr ptr) : RoleBehaviour(ptr), ICustomRole
+public class ReaperRole(System.IntPtr ptr) : BaseOutcastRole(ptr)
 {
-    public string RoleName => "Reaper";
-    public string RoleDescription => "Collect souls to win";
-    public string RoleLongDescription => "Collect souls from dead bodies to win the game.";
-    public Color RoleColor => LaunchpadPalette.ReaperColor;
-    public ModdedRoleTeams Team => ModdedRoleTeams.Neutral;
+    public override string RoleName => "Reaper";
+    public override string RoleDescription => "Collect souls to win";
+    public override string RoleLongDescription => "Collect souls from dead bodies to win the game.";
+    public override Color RoleColor => LaunchpadPalette.ReaperColor;
     public override bool IsDead => false;
 
     public int CollectedSouls;
 
-    public CustomRoleConfiguration Configuration => new(this)
+    public override CustomRoleConfiguration Configuration => new(this)
     {
         TasksCountForProgress = false,
         CanUseVent = false,

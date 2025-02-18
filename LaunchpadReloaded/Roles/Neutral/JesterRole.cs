@@ -8,16 +8,15 @@ using UnityEngine;
 
 namespace LaunchpadReloaded.Roles.Neutral;
 
-public class JesterRole(System.IntPtr ptr) : RoleBehaviour(ptr), ICustomRole
+public class JesterRole(System.IntPtr ptr) : BaseOutcastRole(ptr)
 {
-    public string RoleName => "Jester";
-    public string RoleDescription => "Get ejected to win";
-    public string RoleLongDescription => "Convince the crew to vote you out by being suspicious.\nIf you get voted out, you win the game.";
-    public Color RoleColor => LaunchpadPalette.JesterColor;
-    public ModdedRoleTeams Team => ModdedRoleTeams.Neutral;
+    public override string RoleName => "Jester";
+    public override string RoleDescription => "Get ejected to win";
+    public override string RoleLongDescription => "Convince the crew to vote you out by being suspicious.\nIf you get voted out, you win the game.";
+    public override Color RoleColor => LaunchpadPalette.JesterColor;
     public override bool IsDead => false;
 
-    public CustomRoleConfiguration Configuration => new(this)
+    public override CustomRoleConfiguration Configuration => new(this)
     {
         TasksCountForProgress = false,
         CanUseVent = OptionGroupSingleton<JesterOptions>.Instance.CanUseVents,

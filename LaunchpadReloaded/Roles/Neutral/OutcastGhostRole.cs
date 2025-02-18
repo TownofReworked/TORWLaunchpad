@@ -4,16 +4,16 @@ using UnityEngine;
 
 namespace LaunchpadReloaded.Roles.Neutral;
 
-public class OutcastGhostRole(IntPtr ptr) : CrewmateGhostRole(ptr), ICustomRole
+public class OutcastGhostRole(IntPtr ptr) : BaseOutcastRole(ptr)
 {
-    public string RoleName => "Outcast Ghost";
-    public string RoleDescription => string.Empty;
-    public string RoleLongDescription => string.Empty;
-    public Color RoleColor => Color.gray;
-    public ModdedRoleTeams Team => ModdedRoleTeams.Neutral;
+    public override string RoleName => "Outcast Ghost";
+    public override string RoleDescription => string.Empty;
+    public override string RoleLongDescription => string.Empty;
+    public override Color RoleColor => Color.gray;
 
-    public CustomRoleConfiguration Configuration => new(this)
+    public override CustomRoleConfiguration Configuration => new(this)
     {
+        HideSettings = true,
         RoleHintType = RoleHintType.TaskHint,
         TasksCountForProgress = false,
         CanUseVent = false,
