@@ -5,7 +5,6 @@ using System.Linq;
 using LaunchpadReloaded.Components;
 using LaunchpadReloaded.Utilities;
 using Reactor.Utilities;
-using UnityEngine;
 using Object = Il2CppSystem.Object;
 
 namespace LaunchpadReloaded.Features;
@@ -47,14 +46,14 @@ public class LaunchpadSettings
         {
             ChangedEvent = enabled =>
             {
-                if (!GameData.Instance || Camera.main == null)
+                if (!HudManager.InstanceExists)
                 {
                     return;
                 }
-                var bloom = Camera.main.GetComponent<Bloom>();
+                var bloom = HudManager.Instance.PlayerCam.GetComponent<Bloom>();
                 if (bloom == null)
                 {
-                    bloom = Camera.main.gameObject.AddComponent<Bloom>();
+                    bloom = HudManager.Instance.PlayerCam.gameObject.AddComponent<Bloom>();
                 }
                 bloom.enabled = enabled;
                 bloom.SetBloomByMap();

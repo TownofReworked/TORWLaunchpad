@@ -2,24 +2,21 @@ using AmongUs.GameOptions;
 using Il2CppSystem.Text;
 using LaunchpadReloaded.Features;
 using LaunchpadReloaded.Options.Roles.Neutral;
-using LaunchpadReloaded.Roles.Afterlife.Outcast;
 using MiraAPI.GameOptions;
-using MiraAPI.PluginLoading;
 using MiraAPI.Roles;
 using UnityEngine;
 
 namespace LaunchpadReloaded.Roles.Neutral;
 
-[MiraIgnore]
-public class JesterRole(System.IntPtr ptr) : BaseOutcastRole(ptr)
+public class JesterRole(System.IntPtr ptr) : RoleBehaviour(ptr), IOutcastRole
 {
-    public override string RoleName => "Jester";
-    public override string RoleDescription => "Get ejected to win";
-    public override string RoleLongDescription => "Convince the crew to vote you out by being suspicious.\nIf you get voted out, you win the game.";
-    public override Color RoleColor => LaunchpadPalette.JesterColor;
+    public string RoleName => "Jester";
+    public string RoleDescription => "Get ejected to win";
+    public string RoleLongDescription => "Convince the crew to vote you out by being suspicious.\nIf you get voted out, you win the game.";
+    public Color RoleColor => LaunchpadPalette.JesterColor;
     public override bool IsDead => false;
 
-    public override CustomRoleConfiguration Configuration => new(this)
+    public CustomRoleConfiguration Configuration => new(this)
     {
         TasksCountForProgress = false,
         CanUseVent = OptionGroupSingleton<JesterOptions>.Instance.CanUseVents,

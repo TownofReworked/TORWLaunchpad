@@ -4,8 +4,6 @@ using LaunchpadReloaded.Buttons.Crewmate;
 using LaunchpadReloaded.Features;
 using LaunchpadReloaded.Utilities;
 using MiraAPI.Hud;
-using System.Text;
-using UnityEngine;
 
 namespace LaunchpadReloaded.Patches.Generic;
 

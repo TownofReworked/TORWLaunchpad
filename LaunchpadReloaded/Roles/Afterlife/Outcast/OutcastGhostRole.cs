@@ -1,20 +1,17 @@
-﻿using LaunchpadReloaded.Roles.Neutral;
-using MiraAPI.PluginLoading;
-using MiraAPI.Roles;
+﻿using MiraAPI.Roles;
 using System;
 using UnityEngine;
 
-namespace LaunchpadReloaded.Roles.Afterlife.Outcast;
+namespace LaunchpadReloaded.Roles.Neutral;
 
-[MiraIgnore]
-public class OutcastGhostRole(IntPtr ptr) : BaseOutcastRole(ptr), IAfterlifeRole
+public class OutcastGhostRole(IntPtr ptr) : RoleBehaviour(ptr), IOutcastRole
 {
-    public override string RoleName => "Outcast Ghost";
-    public override string RoleDescription => string.Empty;
-    public override string RoleLongDescription => string.Empty;
-    public override Color RoleColor => Color.gray;
+    public string RoleName => "Outcast Ghost";
+    public string RoleDescription => string.Empty;
+    public string RoleLongDescription => string.Empty;
+    public Color RoleColor => Color.gray;
 
-    public override CustomRoleConfiguration Configuration => new(this)
+    public CustomRoleConfiguration Configuration => new(this)
     {
         HideSettings = true,
         RoleHintType = RoleHintType.TaskHint,

@@ -1,29 +1,26 @@
 using AmongUs.GameOptions;
-using Il2CppInterop.Runtime.Attributes;
 using LaunchpadReloaded.Features;
 using LaunchpadReloaded.Options.Roles.Neutral;
-using LaunchpadReloaded.Roles.Afterlife.Outcast;
 using MiraAPI.GameOptions;
-using MiraAPI.PluginLoading;
 using MiraAPI.Roles;
 using MiraAPI.Utilities;
 using System.Text;
+using Il2CppInterop.Runtime.Attributes;
 using UnityEngine;
 
 namespace LaunchpadReloaded.Roles.Neutral;
 
-[MiraIgnore]
-public class ReaperRole(System.IntPtr ptr) : BaseOutcastRole(ptr)
+public class ReaperRole(System.IntPtr ptr) : RoleBehaviour(ptr), IOutcastRole
 {
-    public override string RoleName => "Reaper";
-    public override string RoleDescription => "Collect souls to win";
-    public override string RoleLongDescription => "Collect souls from dead bodies to win the game.";
-    public override Color RoleColor => LaunchpadPalette.ReaperColor;
+    public string RoleName => "Reaper";
+    public string RoleDescription => "Collect souls to win";
+    public string RoleLongDescription => "Collect souls from dead bodies to win the game.";
+    public Color RoleColor => LaunchpadPalette.ReaperColor;
     public override bool IsDead => false;
 
     public int CollectedSouls;
 
-    public override CustomRoleConfiguration Configuration => new(this)
+    public CustomRoleConfiguration Configuration => new(this)
     {
         TasksCountForProgress = false,
         CanUseVent = false,
