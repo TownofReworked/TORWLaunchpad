@@ -5,12 +5,12 @@ using UnityEngine;
 
 namespace LaunchpadReloaded.Roles.Afterlife.Crewmate;
 
-public class WardenRole(IntPtr ptr) : CrewmateGhostRole(ptr), ICustomRole, IAfterlifeRole
+public class TaskmasterRole(IntPtr ptr) : CrewmateGhostRole(ptr), ICustomRole, IAfterlifeRole
 {
-    public string RoleName => "Warden";
-    public string RoleDescription => "Freeze players to protect the crew.";
-    public string RoleLongDescription => RoleDescription;
-    public Color RoleColor => LaunchpadPalette.WardenRole;
+    public string RoleName => "Taskmaster";
+    public string RoleDescription => "Steal tasks from the crew.";
+    public string RoleLongDescription => "You are faster than the average ghost.\nSteal tasks from the crew and complete them quicker.";
+    public Color RoleColor => LaunchpadPalette.TaskmasterRole;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
     public RoleOptionsGroup RoleOptionsGroup { get; } = LaunchpadConstants.AfterLifeCrewGroup;
 

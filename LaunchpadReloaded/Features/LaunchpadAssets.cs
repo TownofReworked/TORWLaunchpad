@@ -16,6 +16,7 @@ public static class LaunchpadAssets
     public static readonly LoadableAsset<Material> MaskedGradientMaterial = new LoadableBundleAsset<Material>("MaskedGradientMaterial", Bundle);
 
     // Sprites
+    public static readonly LoadableAsset<Sprite> UseButton = new LoadableResourceAsset("LaunchpadReloaded.Resources.Use.png");
     public static readonly LoadableAsset<Sprite> BlankButton = new LoadableBundleAsset<Sprite>("BlankButton", Bundle);
     public static readonly LoadableAsset<Sprite> CallButton = new LoadableBundleAsset<Sprite>("CallMeeting.png", Bundle);
     public static readonly LoadableAsset<Sprite> DissectButton = new LoadableResourceAsset("LaunchpadReloaded.Resources.Dissect.png");

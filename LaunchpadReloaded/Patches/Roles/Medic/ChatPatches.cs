@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using LaunchpadReloaded.Components;
 using LaunchpadReloaded.Features;
 using LaunchpadReloaded.Modifiers;
 using MiraAPI.Utilities;
@@ -12,6 +13,18 @@ namespace LaunchpadReloaded.Patches.Roles.Medic;
 [HarmonyPatch(typeof(ChatController))]
 public static class ChatPatches
 {
+    [HarmonyPrefix]
+    [HarmonyPatch(nameof(ChatController.Toggle))]
+    public static bool TogglePatch(ChatController __instance)
+    {
+        if (Minigame.Instance != null && Minigame.Instance.TryCast<RoleSelectionMinigame>())
+        {
+            return false;
+        }
+
+        return true;
+    }
+
     //[HarmonyPostfix]
     [HarmonyPatch(nameof(ChatController.Update))]
     public static void UpdatePatch(ChatController __instance)
@@ -33,14 +46,14 @@ public static class ChatPatches
             __instance.openKeyboardButton.gameObject.SetActive(true);
         }
     }
-    
+
     [HarmonyPrefix]
     [HarmonyPatch(nameof(ChatController.SendChat))]
     public static bool SendChatPatch()
     {
         return !PlayerControl.LocalPlayer.HasModifier<RevivedModifier>();
     }
-    
+
     [HarmonyPrefix]
     [HarmonyPatch(nameof(ChatController.AddChat))]
     public static bool AddChatPatch([HarmonyArgument(0)] PlayerControl player)

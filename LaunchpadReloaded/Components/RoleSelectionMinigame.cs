@@ -28,8 +28,22 @@ public sealed class RoleSelectionMinigame(nint ptr) : Minigame(ptr)
 
     private List<RoleBehaviour> _availableRoles;
 
+    private readonly Dictionary<int, Color> _rarities = new()
+    {
+        { 0, Color.yellow },
+        { 20, Palette.LightBlue },
+        { 40, Palette.CrewmateRoleHeaderDarkBlue },
+        { 70, Color.green },
+        { 100, Color.gray }
+    };
+
     private void Awake()
     {
+        if (Minigame.Instance != null)
+        {
+            Minigame.Instance.Close();
+        }
+
         StatusText = transform.FindChild("Status").gameObject.GetComponent<TextMeshPro>();
         RolePrefab = transform.FindChild("RolePrefab").gameObject;
         RolesHolder = transform.FindChild("Roles");
@@ -97,7 +111,7 @@ public sealed class RoleSelectionMinigame(nint ptr) : Minigame(ptr)
 
     }
 
-    public void FixedClose(bool closedDueToMeeting = false)
+    public override void Close()
     {
         if (_selectedRole.HasValue && PlayerControl.LocalPlayer.Data.Role.Role != _selectedRole.Value)
         {
@@ -106,17 +120,12 @@ public sealed class RoleSelectionMinigame(nint ptr) : Minigame(ptr)
 
         HudManager.Instance.StartCoroutine(HudManager.Instance.CoFadeFullScreen(_bgColor, Color.clear, 0.2f, false));
 
-        if (closedDueToMeeting) // Wait until meeting ends, then re-open screen
+        if (MeetingHud.Instance != null)
         {
             Coroutines.Start(CoOpen());
         }
 
         MinigameStubs.Close(this);
-    }
-
-    public override void Close()
-    {
-        FixedClose(MeetingHud.Instance != null);
     }
 
     public static IEnumerator CoOpen()
@@ -149,11 +158,12 @@ public sealed class RoleSelectionMinigame(nint ptr) : Minigame(ptr)
         {
             var newRoleObj = Instantiate(RolePrefab, RolesHolder);
             var text = newRoleObj.transform.GetChild(0).gameObject.GetComponent<TextMeshPro>();
+            var desc = newRoleObj.transform.GetChild(1).gameObject.GetComponent<TextMeshPro>();
             var spriteRend = newRoleObj.GetComponent<SpriteRenderer>();
             var passiveButton = newRoleObj.GetComponent<PassiveButton>();
 
-            text.font = HudManager.Instance.TaskPanel.taskText.font;
-            text.fontMaterial = HudManager.Instance.TaskPanel.taskText.fontMaterial;
+            text.font = desc.font = HudManager.Instance.TaskPanel.taskText.font;
+            text.fontMaterial = desc.fontMaterial = HudManager.Instance.TaskPanel.taskText.fontMaterial;
             spriteRend.material = HatManager.Instance.PlayerMaterial;
 
             var color = Palette.CrewmateRoleBlue;
@@ -169,7 +179,14 @@ public sealed class RoleSelectionMinigame(nint ptr) : Minigame(ptr)
             }
 
             text.text = roleName;
+            desc.text = role.Blurb;
+
             spriteRend.gameObject.AddComponent<GradientColorComponent>().SetColor(color, color);
+
+            if (LaunchpadConstants.HoverSound != null)
+            {
+                passiveButton.HoverSound = LaunchpadConstants.HoverSound;
+            }
 
             passiveButton.OnClick.RemoveAllListeners();
             passiveButton.OnClick.AddListener((UnityAction)(() =>
@@ -177,6 +194,37 @@ public sealed class RoleSelectionMinigame(nint ptr) : Minigame(ptr)
                 _selectedRole = role.Role;
                 Close();
             }));
+
+            var roleChance = role.GetRoleChance();
+            if (roleChance < 100)
+            {
+                var rarity = newRoleObj.transform.GetChild(2);
+                var rarityRend = rarity.GetComponent<SpriteRenderer>();
+                var rarityText = rarity.transform.GetChild(0).gameObject.GetComponent<TextMeshPro>();
+                rarity.transform.localPosition = new Vector3(0.15f, -1.3f, -1);
+                text.transform.localPosition = new Vector3(0.15f, -1.7f, 0);
+                desc.transform.localPosition = new Vector3(0.15f, -2.3f, 0f);
+
+                rarity.gameObject.SetActive(true);
+
+                Color closestColor = _rarities.Last().Value;
+
+                foreach (var kvp in _rarities)
+                {
+                    if (roleChance >= kvp.Key)
+                    {
+                        closestColor = kvp.Value;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                rarityRend.color = closestColor;
+                rarityText.color = closestColor;
+                rarityText.text = $"Chance: {roleChance}%";
+            }
 
             newRoleObj.gameObject.SetActive(true);
         }

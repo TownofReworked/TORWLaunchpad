@@ -36,6 +36,11 @@ public static class LaunchpadEventListeners
         {
             if (@event.Player.AmOwner)
             {
+                if (@event.DeathReason == DeathReason.Kill && TutorialManager.InstanceExists && TaskAdderGame.Instance != null)
+                {
+                    return;
+                }
+
                 Coroutines.Start(RoleSelectionMinigame.CoOpen());
             }
         });

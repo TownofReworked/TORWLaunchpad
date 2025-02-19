@@ -1,8 +1,10 @@
 ﻿using Il2CppSystem.Text;
+using LaunchpadReloaded.Components;
 using LaunchpadReloaded.Features;
 using LaunchpadReloaded.Roles.Afterlife;
 using MiraAPI.Roles;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace LaunchpadReloaded.Roles.Crewmate;
@@ -10,18 +12,14 @@ namespace LaunchpadReloaded.Roles.Crewmate;
 public class IlluminatorRole(IntPtr ptr) : CrewmateGhostRole(ptr), ICustomRole, IAfterlifeRole
 {
     public string RoleName => "Illuminator";
-    public string RoleDescription => "Place lanterns to help the Crewmates.";
+    public string RoleDescription => "Place lanterns to help the crew.";
     public string RoleLongDescription => RoleDescription;
     public Color RoleColor => LaunchpadPalette.IlluminatorRole;
     public ModdedRoleTeams Team => ModdedRoleTeams.Crewmate;
-    public CustomRoleConfiguration Configuration => new(this)
-    {
-        MaxRoleCount = 1,
-        DefaultRoleCount = 1,
-        HideSettings = false,
-    };
 
     public RoleOptionsGroup RoleOptionsGroup { get; } = LaunchpadConstants.AfterLifeCrewGroup;
+
+    public List<OgLightSource> PlacedLanterns = new();
 
     public override bool IsDead => true;
     public override bool IsAffectedByComms => CommsSabotaged;

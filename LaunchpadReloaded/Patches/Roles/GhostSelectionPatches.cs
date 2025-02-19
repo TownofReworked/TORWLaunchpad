@@ -25,7 +25,7 @@ public static class GhostSelectionPatches
     {
         if (__instance is RoleSelectionMinigame roleSelect)
         {
-            roleSelect.FixedClose(true);
+            roleSelect.Close();
             return false;
         }
 

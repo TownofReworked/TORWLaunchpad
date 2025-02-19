@@ -1,6 +1,6 @@
-﻿using System;
-using LaunchpadReloaded.Roles.Neutral;
+﻿using LaunchpadReloaded.Roles.Neutral;
 using MiraAPI.Roles;
+using System;
 using UnityEngine;
 
 namespace LaunchpadReloaded.Roles.Afterlife.Outcast;
@@ -17,6 +17,7 @@ public class OutcastGhostRole(IntPtr ptr) : RoleBehaviour(ptr), IOutcastRole, IA
         HideSettings = true,
         RoleHintType = RoleHintType.TaskHint,
         TasksCountForProgress = false,
+        ShowInFreeplay = false,
         CanUseVent = false,
     };
 
