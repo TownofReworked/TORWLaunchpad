@@ -3,13 +3,12 @@ using LaunchpadReloaded.Options.Modifiers;
 using MiraAPI.GameOptions;
 using UnityEngine;
 
-namespace LaunchpadReloaded.Modifiers.Fun;
+namespace LaunchpadReloaded.Modifiers.Game;
 
 public sealed class GravityModifier : LPModifier
 {
     public override string ModifierName => "Gravity Field";
     public override int GetAssignmentChance() => (int)OptionGroupSingleton<GameModifierOptions>.Instance.GravityChance;
-    public override int GetAmountPerGame() => 1;
 
     private GameObject? detectionCircle;
 
