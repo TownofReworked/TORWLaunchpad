@@ -34,7 +34,7 @@ public class DeadBodyCacheComponent(IntPtr ptr) : MonoBehaviour(ptr)
 
     public static List<DeadBodyCacheComponent> GetFrozenBodies()
     {
-        return AllBodies.Where(body => body.isFrozen == true).ToList();
+        return AllBodies.Where(body => body.isFrozen).ToList();
     }
 
     private void Awake()

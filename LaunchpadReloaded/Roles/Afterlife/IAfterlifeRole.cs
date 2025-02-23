@@ -11,9 +11,4 @@ public interface IAfterlifeRole : ICustomRole
         HideSettings = false,
         ShowInFreeplay = true,
     };
-
-    public bool CanBeAssigned(PlayerControl player)
-    {
-        return true;
-    }
 }

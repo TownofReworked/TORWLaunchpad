@@ -21,6 +21,7 @@ public class NotepadHud
         CreateNotepad();
         CreateNotepadButton();
         UpdateAspectPos();
+        SetNotepadButtonVisible(LaunchpadSettings.Instance?.Notepad.Enabled ?? true);
     }
 
     public void UpdateAspectPos()
@@ -36,6 +37,11 @@ public class NotepadHud
         NotepadButton.gameObject.DestroyImmediate();
 
         Instance = null;
+    }
+
+    public void SetNotepadButtonVisible(bool visible)
+    {
+        NotepadButton.gameObject.SetActive(visible);
     }
 
     private void CreateNotepadButton()

@@ -1,7 +1,6 @@
 ﻿using LaunchpadReloaded.Features;
 using LaunchpadReloaded.Options.Roles.Impostor;
 using LaunchpadReloaded.Roles.Impostor;
-using LaunchpadReloaded.Utilities;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Utilities.Assets;
@@ -78,7 +77,7 @@ public class SwapButton : BaseLaunchpadButton
 
             PlayerControl.LocalPlayer.RpcShapeshift(_currentTarget, false);
 
-            playerMenu.BaseClose();
+            playerMenu.Close();
         });
     }
 }

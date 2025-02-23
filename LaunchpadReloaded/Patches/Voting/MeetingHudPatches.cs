@@ -214,16 +214,18 @@ public static class MeetingHudPatches
 
         NetworkedPlayerInfo? exiled;
         bool isTie;
+        
+        var votes = VotingTypesManager.CalculateVotes();
 
         if (VotingTypesManager.UseChance())
         {
             isTie = false;
-            var playerId = VotingTypesManager.GetVotedPlayerByChance(VotingTypesManager.CalculateVotes());
+            var playerId = VotingTypesManager.GetVotedPlayerByChance(votes);
             exiled = GameData.Instance.GetPlayerById(playerId);
         }
         else
         {
-            var max = VotingTypesManager.CalculateNumVotes(VotingTypesManager.CalculateVotes()).MaxPair(out isTie);
+            var max = VotingTypesManager.CalculateNumVotes(votes).MaxPair(out isTie);
             exiled = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(v => !isTie && v.PlayerId == max.Key);
         }
 

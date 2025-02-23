@@ -4,7 +4,6 @@ using LaunchpadReloaded.Features;
 using LaunchpadReloaded.Modifiers;
 using LaunchpadReloaded.Options.Roles.Crewmate;
 using LaunchpadReloaded.Roles.Crewmate;
-using LaunchpadReloaded.Utilities;
 using MiraAPI.GameOptions;
 using MiraAPI.Networking;
 using MiraAPI.Utilities;
@@ -17,7 +16,6 @@ public class GambleButton : BaseLaunchpadButton<PlayerControl>
 {
     public override string Name => "Gamble";
     public override float Cooldown => OptionGroupSingleton<GamblerOptions>.Instance.GambleCooldown;
-    public override float EffectDuration => 0;
     public override int MaxUses => (int)OptionGroupSingleton<GamblerOptions>.Instance.GambleUses;
     public override LoadableAsset<Sprite> Sprite => LaunchpadAssets.GambleButton;
     public override bool TimerAffectedByPlayer => true;
@@ -39,6 +37,16 @@ public class GambleButton : BaseLaunchpadButton<PlayerControl>
         Target?.cosmetics.SetOutline(active, new Nullable<Color>(LaunchpadPalette.GamblerColor));
     }
 
+    public override void ClickHandler()
+    {
+        if (!CanClick())
+        {
+            return;
+        }
+
+        OnClick();
+    }
+
     protected override void OnClick()
     {
         if (Target == null)
@@ -46,22 +54,11 @@ public class GambleButton : BaseLaunchpadButton<PlayerControl>
             return;
         }
 
-        SetTimerPaused(true);
-
         var playerMenu = GuessRoleMinigame.Create();
         playerMenu.Open(role => !role.IsDead, selectedRole =>
         {
-            SetTimerPaused(false);
-
             if (selectedRole == null)
             {
-                SetTimer(0);
-
-                if (LimitedUses)
-                {
-                    UsesLeft++;
-                    Button?.SetUsesRemaining(UsesLeft);
-                }
                 return;
             }
 
@@ -80,7 +77,14 @@ public class GambleButton : BaseLaunchpadButton<PlayerControl>
                 Target.RpcAddModifier<RevealedModifier>();
             }
 
-            playerMenu.BaseClose();
+            if (LimitedUses)
+            {
+                UsesLeft--;
+                Button?.SetUsesRemaining(UsesLeft);
+            }
+            Timer = Cooldown;
+
+            playerMenu.Close();
 
             ResetCooldownAndOrEffect();
         });

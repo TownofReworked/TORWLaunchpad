@@ -27,12 +27,15 @@ public class HideButton : BaseLaunchpadButton<DeadBody>
 
     public override DeadBody? GetTarget()
     {
-        return PlayerControl.LocalPlayer.GetNearestObjectOfType<DeadBody>(Distance, Helpers.CreateFilter(Constants.NotShipMask), "DeadBody");
+        return PlayerControl.LocalPlayer.GetNearestObjectOfType<DeadBody>(Distance, Helpers.CreateFilter(Constants.NotShipMask), "DeadBody", IsTargetValid);
     }
 
     public override bool IsTargetValid(DeadBody? target)
     {
-        return target != null;
+        return target != null && target.GetCacheComponent() is
+        {
+            hidden: false
+        };
     }
 
     public override void SetOutline(bool active)

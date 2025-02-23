@@ -26,12 +26,10 @@ public static class AmongUsClientPatch
 
     private static IEnumerator WaitForPlayer(ClientData clientData)
     {
-        // Wait until the player is fully loaded
-        var del = DelegateSupport.ConvertDelegate<Il2CppSystem.Func<bool>>(
-            () => GameData.Instance.GetPlayerByClient(clientData)?.IsIncomplete == false
-                  && PlayerControl.LocalPlayer != null);
-
-        yield return new WaitUntil(del);
+        while (!(GameData.Instance.GetPlayerByClient(clientData)?.IsIncomplete == false && PlayerControl.LocalPlayer != null))
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
         
         var colorData = new Dictionary<byte, CustomColorData>();
         

@@ -1,4 +1,5 @@
 ﻿using MiraAPI.Colors;
+using MiraAPI.Utilities;
 using UnityEngine;
 
 namespace LaunchpadReloaded.Features.Colors;
@@ -7,7 +8,7 @@ namespace LaunchpadReloaded.Features.Colors;
 public static class LaunchpadColors
 {
     public static CustomColor PureBlack { get; } = new("Pure Black", Color.black, Color.black);
-    public static CustomColor PureWhite { get; } = new("Pure White", Color.white, Color.white);
+    public static CustomColor PureWhite { get; } = new("Pure White", Color.white, Color.white.DarkenColor(.05f));
     public static CustomColor HotPink { get; } = new("Hot Pink", new Color32(238, 0, 108, 255));
     public static CustomColor Blueberry { get; } = new("Blueberry", new Color32(85, 151, 207, 255));
     public static CustomColor Mint { get; } = new("Mint", new Color32(91, 190, 140, 255));

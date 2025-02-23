@@ -6,6 +6,7 @@ using Reactor.Utilities.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Reactor.Utilities;
 using TMPro;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -104,25 +105,33 @@ public static class VotingTypesManager
         if (!OptionGroupSingleton<VotingOptions>.Instance.HideVotingIcons.Value)
         {
             var delays = new Dictionary<byte, int>();
-            var num2 = 0;
+            var num = 0;
 
-            foreach (var vote in votes)
+            for (var i = 0; i < MeetingHud.Instance.playerStates.Length; i++)
             {
-                if (vote.Suspect == (byte)SpecialVotes.Skip)
+                var playerVoteArea = MeetingHud.Instance.playerStates[i];
+                playerVoteArea.ClearForResults();
+                foreach (var vote in votes)
                 {
-                    MeetingHud.Instance.BloopAVoteIcon(GameData.Instance.GetPlayerById(vote.Voter), num2, MeetingHud.Instance.SkippedVoting.transform);
-                    num2++;
-                    continue;
+                    var playerById = GameData.Instance.GetPlayerById(vote.Voter);
+                    if (playerById == null)
+                    {
+                        Logger<LaunchpadReloadedPlugin>.Error($"Couldn't find player info for voter: {vote.Voter}");
+                    }
+                    else if (i == 0 && vote.Suspect == (byte)SpecialVotes.Skip)
+                    {
+                        MeetingHud.Instance.BloopAVoteIcon(playerById, num, MeetingHud.Instance.SkippedVoting.transform);
+                        num++;
+                    }
+                    else if (vote.Suspect == playerVoteArea.TargetPlayerId)
+                    {
+                        if (!delays.TryAdd(vote.Suspect, 0))
+                        {
+                            delays[vote.Suspect]++;
+                        }
+                        MeetingHud.Instance.BloopAVoteIcon(playerById, delays[vote.Suspect], playerVoteArea.transform);
+                    }
                 }
-
-                var playerVoteArea = MeetingHud.Instance.playerStates[vote.Suspect];
-
-                if (!delays.TryAdd(vote.Suspect, 0))
-                {
-                    delays[vote.Suspect]++;
-                }
-
-                MeetingHud.Instance.BloopAVoteIcon(GameData.Instance.GetPlayerById(vote.Voter), delays[vote.Suspect], playerVoteArea.transform);
             }
         }
 

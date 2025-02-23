@@ -18,8 +18,8 @@ public sealed class GuessRoleMinigame(IntPtr ptr) : Minigame(ptr)
     private Action<RoleBehaviour> _onClick = null!;
     private Scroller _scroller = null!;
 
-    private PassiveButton _closeButton;
-    private PassiveButton _outsideCloseButton;
+    private PassiveButton _closeButton = null!;
+    private PassiveButton _outsideCloseButton = null!;
 
     public void Awake()
     {

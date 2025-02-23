@@ -27,9 +27,8 @@ public static class PlayerMaterialPatch
             }
         }
 
-        if (renderer.GetComponentInParent<PlayerGradientData>())
+        if (renderer.GetComponentInParent<PlayerGradientData>() is {} comp && comp)
         {
-            var comp = renderer.GetComponentInParent<PlayerGradientData>();
             color2 = comp.GradientColor;
             enabled = comp.GradientEnabled;
         }
@@ -38,7 +37,7 @@ public static class PlayerMaterialPatch
         {
             byte id = 255;
             if (renderer.GetComponentInParent<PlayerControl>())
-            {
+            {d
                 id = renderer.GetComponentInParent<PlayerControl>().PlayerId;
             }
 

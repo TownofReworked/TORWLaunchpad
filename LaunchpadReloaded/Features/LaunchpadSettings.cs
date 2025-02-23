@@ -13,6 +13,7 @@ public class LaunchpadSettings
 {
     public static LaunchpadSettings? Instance { get; private set; }
 
+    public readonly CustomSetting Notepad;
     public readonly CustomSetting Bloom;
     public readonly CustomSetting LockedCamera;
     public readonly CustomSetting UniqueDummies;
@@ -27,7 +28,15 @@ public class LaunchpadSettings
         var bloomConfig = configFile.Bind("LP Settings", "Bloom", true, "Enable bloom effect");
         var lockedCameraConfig = configFile.Bind("LP Settings", "Locked Camera", false, "Lock camera to player");
         var uniqueDummiesConfig = configFile.Bind("LP Settings", "Unique Freeplay Dummies", true, "Give each dummy a unique name");
-        
+        var notepadConfig = configFile.Bind("LP Settings", "Notepad", true, "Enable notepad");
+
+        Notepad = new CustomSetting("Notepad enabled", notepadConfig.Value)
+        {
+            ChangedEvent = visible =>
+            {
+                NotepadHud.Instance?.SetNotepadButtonVisible(visible);
+            }
+        };
 #if !ANDROID
         // TODO: update button location mid-game
         ButtonLocation = new CustomSetting("Buttons On Left", buttonConfig.Value)

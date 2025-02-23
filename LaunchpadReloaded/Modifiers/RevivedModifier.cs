@@ -24,7 +24,7 @@ public class RevivedModifier : BaseModifier
 
     public override void OnActivate()
     {
-        var tagManager = Player.GetTagManager();
+        var tagManager = Player!.GetTagManager();
 
         if (tagManager != null)
         {

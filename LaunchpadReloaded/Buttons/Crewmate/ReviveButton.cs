@@ -3,6 +3,7 @@ using LaunchpadReloaded.Modifiers;
 using LaunchpadReloaded.Networking;
 using LaunchpadReloaded.Options.Roles.Crewmate;
 using LaunchpadReloaded.Roles.Crewmate;
+using LaunchpadReloaded.Utilities;
 using MiraAPI.GameOptions;
 using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
@@ -44,12 +45,15 @@ public class ReviveButton : BaseLaunchpadButton<DeadBody>
 
     public override DeadBody? GetTarget()
     {
-        return PlayerControl.LocalPlayer.GetNearestObjectOfType<DeadBody>(Distance, Helpers.CreateFilter(Constants.NotShipMask), "DeadBody");
+        return PlayerControl.LocalPlayer.GetNearestObjectOfType<DeadBody>(Distance, Helpers.CreateFilter(Constants.NotShipMask), "DeadBody", IsTargetValid);
     }
 
     public override bool IsTargetValid(DeadBody? target)
     {
-        return target != null;
+        return target != null && target.GetCacheComponent() is
+        {
+            hidden: false
+        };
     }
 
     public override bool CanUse()

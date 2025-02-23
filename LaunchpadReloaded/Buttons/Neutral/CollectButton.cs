@@ -27,12 +27,16 @@ public class CollectButton : BaseLaunchpadButton<DeadBody>
 
     public override DeadBody? GetTarget()
     {
-        return PlayerControl.LocalPlayer.GetNearestObjectOfType<DeadBody>(Distance, MiraAPI.Utilities.Helpers.CreateFilter(Constants.NotShipMask), "DeadBody");
+        return PlayerControl.LocalPlayer.GetNearestObjectOfType<DeadBody>(Distance, MiraAPI.Utilities.Helpers.CreateFilter(Constants.NotShipMask), "DeadBody", IsTargetValid);
     }
 
     public override bool IsTargetValid(DeadBody? target)
     {
-        return target != null && !target.GetCacheComponent().isReaped;
+        return target != null && target.GetCacheComponent() is
+        {
+            isReaped: false,
+            hidden: false
+        };
     }
 
     public override void SetOutline(bool active)
