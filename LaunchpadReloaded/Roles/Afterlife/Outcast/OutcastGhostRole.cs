@@ -1,5 +1,10 @@
 
 
+using LaunchpadReloaded.Roles.Neutral;
+using MiraAPI.Roles;
+using System;
+using UnityEngine;
+
 namespace LaunchpadReloaded.Roles.Afterlife.Outcast;
 
 public class OutcastGhostRole(IntPtr ptr) : RoleBehaviour(ptr), IOutcastRole, IAfterlifeRole
