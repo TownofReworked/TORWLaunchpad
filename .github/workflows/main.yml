@@ -22,5 +22,5 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: LaunchpadReloaded.dll
+          name: TORWLaunchpad.dll
           path: TORWLaunchpad/bin/Release/net6.0/TORWLaunchpad.dll
