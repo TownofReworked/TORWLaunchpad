@@ -25,3 +25,5 @@ jobs:
         with:
           name: TORWLaunchpad.dll
           path: TORWLaunchpad/LaunchpadReloaded/bin/Debug/net6.0/TORWLaunchpad.dll
+      - name: List build output
+        run: ls -R TORWLaunchpad/LaunchpadReloaded/bin/Debug/net6.0
